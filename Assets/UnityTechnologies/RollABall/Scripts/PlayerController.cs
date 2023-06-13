@@ -69,16 +69,19 @@ public class PlayerController : MonoBehaviour {
 		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
-        Vector3 currentSpeed = GetComponent<Rigidbody>().velocity;
+		Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 currentSpeed = rb.velocity;
 		int AddedSpeed = 1;
 
         // Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-
-
+		// check if wsad get pressed or not
         if (movement != Vector3.zero) 
 			Checkdirection(movement, currentSpeed, AddedSpeed);
+
+		// store temp Y speed
+		float tempY = rb.velocity.y;
 
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
@@ -86,10 +89,14 @@ public class PlayerController : MonoBehaviour {
 
         countText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
 
-        if (GetComponent<Rigidbody>().velocity.magnitude > maxSpeed)
+        if (rb.velocity.magnitude > maxSpeed)
         {
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * maxSpeed;
+            rb.velocity = rb.velocity.normalized * maxSpeed;
         }
+
+		// restore the previous Y speed
+        rb.velocity = new Vector3(rb.velocity.x, tempY, rb.velocity.z);
+
 
     }
 
