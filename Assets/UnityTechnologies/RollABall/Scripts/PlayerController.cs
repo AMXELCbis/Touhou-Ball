@@ -80,22 +80,25 @@ public class PlayerController : MonoBehaviour {
         if (movement != Vector3.zero) 
 			Checkdirection(movement, currentSpeed, AddedSpeed);
 
-		// store temp Y speed
-		float tempY = rb.velocity.y;
 
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
 		rb.AddForce (movement * speed * AddedSpeed);
 
-        countText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
+		Vector2 XZvelocity = new Vector2(rb.velocity.x, rb.velocity.z);
 
-        if (rb.velocity.magnitude > maxSpeed)
+        if (XZvelocity.magnitude > maxSpeed)
         {
-            rb.velocity = rb.velocity.normalized * maxSpeed;
+            XZvelocity = XZvelocity.normalized * maxSpeed;
         }
 
-		// restore the previous Y speed
-        rb.velocity = new Vector3(rb.velocity.x, tempY, rb.velocity.z);
+        rb.velocity = new Vector3(XZvelocity.x, rb.velocity.y, XZvelocity.y);
+
+
+
+        // display speed
+        countText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
+
 
 
     }
