@@ -8,13 +8,10 @@ public enum RebornType
 {
     Normal = 1,
     Set = 2,
-    Self = 3,
+    LastDown = 3,
 };
 public class RebornCheck : MonoBehaviour
 {
-    public Transform rebornPoint;
-    [SerializeField]
-    public RebornType rebornType = RebornType.Normal;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,24 +31,7 @@ public class RebornCheck : MonoBehaviour
             PlayerController ctrller = other.gameObject.GetComponent<PlayerController>();
             if(ctrller != null)
             {
-                switch (rebornType)
-                {
-                    case RebornType.Normal:
-                        ctrller.ReBorn(LevelManager.instance.nowRebornPoint.transform.position);
-                        break;
-                    case RebornType.Set:
-                        ctrller.ReBorn(rebornPoint.position);
-                        break;
-                    case RebornType.Self:
-                        //statement(s);
-                        break;
-
-                    /* 您可以有任意数量的 case 语句 */
-                    default: /* 可选的 */
-                        break;
-                }
-
-
+                LevelManager.instance.Reborn(ctrller);             
             }
         }
     }

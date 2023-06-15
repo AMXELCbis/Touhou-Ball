@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour {
     // Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
     private Rigidbody rb;
 	private int count;
+	[SerializeField]
+	private LayerMask groundCheck;
+	[SerializeField]
+	private Transform groundCheckPoint;
 
 	// At the start of the game..
 	void Start ()
@@ -101,7 +105,7 @@ public class PlayerController : MonoBehaviour {
         countText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
 
 
-
+		CheckGroundPoint();
     }
 
     // When this game object intersects a collider with 'is trigger' checked, 
@@ -142,19 +146,27 @@ public class PlayerController : MonoBehaviour {
 		checkRebornOnGround = false;
 
     }
-	/// <summary>
-	///	根据是否要落地保持静止来控制是否需要开启地面碰撞检测
-	/// </summary>
-	/// <param name="collision"></param>
-  //  private void OnCollisionEnter(Collision collision)
-  //  {
-  //      if(collision.gameObject.tag == "Ground")
-		//{
-		//	if(!checkRebornOnGround)
-		//	{
-  //              rb.velocity = Vector3.zero;
-  //              checkRebornOnGround = true;
-  //          }
-		//}
-  //  }
+
+    public void CheckGroundPoint()
+    {
+		if (Physics.Raycast(transform.position, new Vector3(0, -1, 0), 1, groundCheck))
+		{
+			LevelManager.instance.lastDownPoint = groundCheckPoint.position;
+        }
+    }
+    /// <summary>
+    ///	根据是否要落地保持静止来控制是否需要开启地面碰撞检测
+    /// </summary>
+    /// <param name="collision"></param>
+    //  private void OnCollisionEnter(Collision collision)
+    //  {
+    //      if(collision.gameObject.tag == "Ground")
+    //{
+    //	if(!checkRebornOnGround)
+    //	{
+    //              rb.velocity = Vector3.zero;
+    //              checkRebornOnGround = true;
+    //          }
+    //}
+    //  }
 }
