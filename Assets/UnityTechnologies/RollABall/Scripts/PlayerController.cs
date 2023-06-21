@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	public Text winText;
 	public float maxSpeed;
 	public bool checkRebornOnGround; //重生判断落地
+	public float addForceScale = 1; //施加的移动力大小
 
     // Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
     private Rigidbody rb;
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 
 	//Check the speed and the current direction, if not the same, increase the force
 	//until current speed is equal to 0
-    void Checkdirection(Vector3 movement, Vector3 currentSpeed, int AddedSpeed)
+    void Checkdirection(Vector3 movement, Vector3 currentSpeed, float AddedSpeed)
 	{
 
 		//x axis
@@ -76,19 +77,20 @@ public class PlayerController : MonoBehaviour {
 		float moveVertical = Input.GetAxis ("Vertical");
 		Rigidbody rb = GetComponent<Rigidbody>();
         Vector3 currentSpeed = rb.velocity;
-		int AddedSpeed = 1;
+		//int addForce = 1;
 
-        // Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+		// Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
+		Vector3 movement = moveVertical * LevelManager.instance.curForward + moveHorizontal * LevelManager.instance.curRight;
+        //Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
 		// check if wsad get pressed or not
         if (movement != Vector3.zero) 
-			Checkdirection(movement, currentSpeed, AddedSpeed);
+			Checkdirection(movement, currentSpeed, addForceScale);
 
 
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
-		rb.AddForce (movement * speed * AddedSpeed);
+		rb.AddForce (movement * speed * addForceScale);
 
 		Vector2 XZvelocity = new Vector2(rb.velocity.x, rb.velocity.z);
 

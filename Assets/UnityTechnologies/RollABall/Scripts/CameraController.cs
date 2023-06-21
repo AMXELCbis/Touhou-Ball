@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class CameraController : MonoBehaviour {
 
@@ -8,19 +9,86 @@ public class CameraController : MonoBehaviour {
 
 	// Store a Vector3 offset from the player (a distance to place the camera from the player at all times)
 	private Vector3 offset;
+    [SerializeField]
+    private Animator cameraRotateAnim;
+    [SerializeField]
+    private Transform _downPoint; //落下镜头方位
+    [SerializeField]
+    private Transform _upPoint; //抬起镜头方位
+    [SerializeField]
+    private Transform _camera; //角色摄像机
 
-	// At the start of the game..
-	void Start ()
+
+	private Transform _targetTrans; //当前目标点
+    [SerializeField]
+    private float moveSpeed = 0.05f;   ///镜头升降移动速度
+    [SerializeField]
+    private float rotateSpeed = 0.05f;  ///镜头升降旋转速度
+    // At the start of the game..
+    void Start ()
 	{
 		// Create an offset by subtracting the Camera's position from the player's position
 		offset = transform.position - player.transform.position;
-	}
+        _targetTrans = _downPoint;
+    }
 
 	// After the standard 'Update()' loop runs, and just before each frame is rendered..
 	void LateUpdate ()
 	{
 		// Set the position of the Camera (the game object this script is attached to)
 		// to the player's position, plus the offset amount
+
 		transform.position = player.transform.position + offset;
+	}
+
+    private void Update()
+    {
+		CheckCameraUp();
+		CheckCameraRotate();
+    }
+    private void FixedUpdate()
+    {
+        float distance = 1 / ((_camera.position - _targetTrans.position).magnitude);
+        _camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, distance * moveSpeed);
+ 
+        float angle = 1 / ((_camera.eulerAngles - _targetTrans.eulerAngles).magnitude);
+        _camera.transform.eulerAngles = Vector3.Lerp(_camera.eulerAngles, _targetTrans.eulerAngles, angle * rotateSpeed);
+    }
+
+    void CheckCameraUp()
+	{
+
+        if (Input.GetKey(KeyCode.Space))
+		{
+			_targetTrans = _upPoint;
+
+        }
+		else
+		{
+            _targetTrans = _downPoint;
+        }
+	}
+	
+	void CheckCameraRotate()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            cameraRotateAnim.SetTrigger("Left");
+		}
+        else
+		{
+            cameraRotateAnim.ResetTrigger("Left");
+
+        }
+		
+		if(Input.GetKeyDown(KeyCode.E))
+        {
+            cameraRotateAnim.SetTrigger("Right");
+        }
+		else
+		{
+            cameraRotateAnim.ResetTrigger("Right");
+        }
 	}
 }
