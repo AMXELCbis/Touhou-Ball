@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour {
 
@@ -48,17 +50,18 @@ public class CameraController : MonoBehaviour {
     }
     private void FixedUpdate()
     {
-        float distance = 1 / ((_camera.position - _targetTrans.position).magnitude);
-        _camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, distance * moveSpeed);
- 
-        float angle = 1 / ((_camera.eulerAngles - _targetTrans.eulerAngles).magnitude);
-        _camera.transform.eulerAngles = Vector3.Lerp(_camera.eulerAngles, _targetTrans.eulerAngles, angle * rotateSpeed);
+        //float distance = 1 / ((_camera.position - _targetTrans.position).magnitude);
+        //_camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, distance * moveSpeed);
+        _camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, moveSpeed);
+        //float angle = 1 / ((_camera.localEulerAngles - _targetTrans.localEulerAngles).magnitude);
+        //_camera.transform.localEulerAngles = Vector3.Lerp(_camera.localEulerAngles, _targetTrans.localEulerAngles, angle * rotateSpeed);
+        _camera.transform.localEulerAngles = Vector3.Lerp(_camera.localEulerAngles, _targetTrans.localEulerAngles, rotateSpeed);
     }
 
     void CheckCameraUp()
 	{
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.LeftShift))
 		{
 			_targetTrans = _upPoint;
 
