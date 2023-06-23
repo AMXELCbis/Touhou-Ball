@@ -19,9 +19,20 @@ public class CameraController : MonoBehaviour {
     private Transform _upPoint; //抬起镜头方位
     [SerializeField]
     private Transform _camera; //角色摄像机
+    [SerializeField]
+    private bool isUpPoint = false;
 
-
-	private Transform _targetTrans; //当前目标点
+	private Transform _targetTrans
+    {
+        get 
+        { 
+            if (isUpPoint)
+            {
+                return _upPoint;
+            }
+            return _downPoint; 
+        }
+    }//当前目标点
     [SerializeField]
     private float moveSpeed = 0.05f;   ///镜头升降移动速度
     [SerializeField]
@@ -31,7 +42,6 @@ public class CameraController : MonoBehaviour {
 	{
 		// Create an offset by subtracting the Camera's position from the player's position
 		offset = transform.position - player.transform.position;
-        _targetTrans = _downPoint;
     }
 
 	// After the standard 'Update()' loop runs, and just before each frame is rendered..
@@ -61,14 +71,10 @@ public class CameraController : MonoBehaviour {
     void CheckCameraUp()
 	{
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
-			_targetTrans = _upPoint;
+            isUpPoint = !isUpPoint;
 
-        }
-		else
-		{
-            _targetTrans = _downPoint;
         }
 	}
 	

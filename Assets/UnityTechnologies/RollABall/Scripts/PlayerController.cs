@@ -36,8 +36,11 @@ public class PlayerController : MonoBehaviour {
 		SetCountText ();
 
 		// Set the text property of our Win Text UI to an empty string, making the 'You Win' (game over message) blank
-		winText.text = "";
-	}
+		if (winText != null)
+		{
+            winText.text = "";
+        }
+    }
 
     // Each physics step..
 
@@ -104,10 +107,13 @@ public class PlayerController : MonoBehaviour {
 
 
         // display speed
-        countText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
+		if(countText != null )
+		{
+            countText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
+        }
 
 
-		CheckGroundPoint();
+        CheckGroundPoint();
     }
 
     // When this game object intersects a collider with 'is trigger' checked, 
