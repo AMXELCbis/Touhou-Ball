@@ -26,7 +26,7 @@ public class RebornCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other?.gameObject.tag == "Player")
         {
             PlayerController ctrller = other.gameObject.GetComponent<PlayerController>();
             if(ctrller != null)

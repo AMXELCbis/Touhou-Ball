@@ -12,7 +12,7 @@ public class RebornPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other?.gameObject.tag == "Player")
         {
             LevelManager.instance.CheckRebornPoint(this);
         }
