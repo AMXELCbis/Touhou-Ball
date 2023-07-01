@@ -1,4 +1,4 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GameDefine;
@@ -6,17 +6,17 @@ using GameDefine;
 public class SyamemaruKaze : MonoBehaviour
 {
     
-    [SerializeField,Header("风力大小")]
+    [SerializeField,Header("椋庡姏澶у皬")]
     public float kazePower;
-    [SerializeField, Header("风力方向")]
+    [SerializeField, Header("椋庡姏鏂瑰悜")]
     public Vector3 kazeVec = Vector3.zero;
-    [SerializeField, Header("是否受起终点控制风力方向")]
+    [SerializeField, Header("鏄惁鍙楄捣缁堢偣鎺у埗椋庡姏鏂瑰悜")]
     bool pointCtrl = true;
-    [SerializeField, Header("起点")]
+    [SerializeField, Header("璧风偣")]
     Transform startPoint;
-    [SerializeField, Header("终点")]
+    [SerializeField, Header("缁堢偣")]
     Transform endPoint;
-    [SerializeField, Header("风力影响最大速度参数")]
+    [SerializeField, Header("椋庡姏褰卞搷鏈�澶ч�熷害鍙傛暟")]
     private float kazeSlowPower;
 
     private void Start()

@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private PlayerStateCtrl playerState;
     [SerializeField]
-    private Vector2 kazeSlowDown = Vector2.zero;
-    private Vector2 kazeForce = Vector2.zero;
+    public Vector2 kazeSlowDown = Vector2.zero;
+    public Vector2 kazeForce = Vector2.zero;
     private Vector3 curMovement = Vector3.zero;
     // At the start of the game..
     void Start ()
@@ -200,21 +200,16 @@ public class PlayerController : MonoBehaviour {
         if(playerState  != null)
         {
             foreach(var pair in playerState.stateDic)
-            {
-                if(pair.Value.isOn)
-                {
+            {               
                     switch (pair.Key)
                     {
                         case PlayerStateType.InKaze:
-                            {
-                                kazeSlowDown.x = pair.Value.paramList[0];
-                                kazeSlowDown.y = pair.Value.paramList[1];
-                                kazeForce.x = pair.Value.paramList[2];
-                                kazeForce.y = pair.Value.paramList[3];
-                                break;
-                            }
-                    }
-                }               
+						{
+							playerState.OnInWind(pair.Value);
+							break;
+
+						}
+				}               
             }
         }
     }

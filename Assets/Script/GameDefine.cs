@@ -1,22 +1,23 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
  namespace GameDefine
 {
-    /// <summary>
-    /// ½ÇÉ«×´Ì¬Ã¶¾Ù
-    /// </summary>
+	/// <summary>
+	/// è§’è‰²çŠ¶æ€æšä¸¾
+	/// </summary>
+	[SerializeField]
     public enum PlayerStateType
     {
         /// <summary>
-        /// param = 4 , 1¡¢2ºÅÎ»±íÊ¾×î´óËÙ¶ÈÊÜ·çÁ¦Ó°ÏìÖµ 3¡¢4ºÅÎ»±íÊ¾·çÁ¦¸½¼ÓÖµ
+        /// param = 4 , 1ã€2å·ä½è¡¨ç¤ºæœ€å¤§é€Ÿåº¦å—é£åŠ›å½±å“å€¼ 3ã€4å·ä½è¡¨ç¤ºé£åŠ›é™„åŠ å€¼
         /// </summary>
         InKaze = 0,
     }
 
     /// <summary>
-    /// ÓĞĞèÒªÓÃµ½Ò»Ğ©¶à´¦»áÓÃµ½µÄ³£Á¿¾Í¼ÓÔÚ´Ë´¦ ×îºÃ²»ÒªĞŞ¸ÄÖµ
+    /// æœ‰éœ€è¦ç”¨åˆ°ä¸€äº›å¤šå¤„ä¼šç”¨åˆ°çš„å¸¸é‡å°±åŠ åœ¨æ­¤å¤„ æœ€å¥½ä¸è¦ä¿®æ”¹å€¼
     /// </summary>
     public class NormalDefine
     {

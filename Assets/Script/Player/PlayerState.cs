@@ -1,11 +1,12 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GameDefine;
+[SerializeField]
 public class PlayerState
 {
     /// <summary>
-    /// 参数列表
+    /// 鍙傛暟鍒楄〃
     /// </summary>
     public List<float> paramList = new List<float>();
 
