@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerLife : MonoBehaviour
 {
     public TextMeshProUGUI PlayerLifeText;
-    public LevelManager Levelmanager;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +18,7 @@ public class PlayerLife : MonoBehaviour
     {
         if (PlayerLifeText != null)
         {
-            PlayerLifeText.text = "X " + Levelmanager.PlayerLife;
+            PlayerLifeText.text = "X " + LevelManager.instance.PlayerLife;
         }
     }
 }
