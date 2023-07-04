@@ -119,7 +119,10 @@ public class PlayerController : MonoBehaviour {
 		transform.position = rebornPoint;
 		rb.velocity = Vector3.zero; //重置原有速度
 		checkRebornOnGround = false;
-    }
+
+		//decrease life number
+		LevelManager.instance.PlayerLife--;
+	}
 
     public void CheckGroundPoint()
     {
