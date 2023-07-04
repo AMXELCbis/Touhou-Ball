@@ -67,11 +67,11 @@ public class LevelManager : MonoBehaviour
         switch (nowRebornPoint.rebornType)
         {
             case RebornType.Normal:
-                ctrller.ReBorn(nowRebornPoint.transform.position);
+                ctrller.ReBorn(nowRebornPoint.bornPosition);
                 break;
             case RebornType.Set:
-                ctrller.ReBorn(nowRebornPoint.rebornPoint.position);
-                break;
+				ctrller.ReBorn(nowRebornPoint.bornPosition);
+				break;
             case RebornType.LastDown:
                 //statement(s);
                 ctrller.ReBorn(lastDownPoint);
