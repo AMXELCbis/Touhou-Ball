@@ -1,17 +1,22 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class LevelManager : MonoBehaviour
 {
+    public int PlayerLife;
+
     public static LevelManager instance;
 
     public RebornPoint nowRebornPoint;
 
     public Vector3 lastDownPoint;
 
-    public Vector3 curForward;//当前前方
-    public Vector3 curRight//当前右方
+    public Vector3 curForward;//碌卤脟掳脟掳路陆
+    public Vector3 curRight//碌卤脟掳脫脪路陆
     {
         get
         {
@@ -77,7 +82,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// param direction 0 左 1 右
+    /// param direction 0 脳贸 1 脫脪
     /// </summary>
     /// <param name="direction"></param>
     public void ChangeForwardVec(int direction)
