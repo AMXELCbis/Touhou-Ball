@@ -4,6 +4,7 @@
 using UnityEngine.UI;
 using GameDefine;
 using System.Collections;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour {
 
     // Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
     public Rigidbody rb;
+	public LayerMask layers;
+
 	private int count;
 	[SerializeField]
 	private LayerMask groundCheck;
@@ -29,11 +32,15 @@ public class PlayerController : MonoBehaviour {
     public Vector2 kazeSlowDown = Vector2.zero;
     public Vector2 kazeForce = Vector2.zero;
     private Vector3 curMovement = Vector3.zero;
-    // At the start of the game..
-    void Start ()
+	private SphereCollider sphereCollider;
+
+
+	// At the start of the game..
+	void Start ()
 	{
 		// Assign the Rigidbody component to our private rb variable
 		rb = GetComponent<Rigidbody>();
+		sphereCollider = GetComponent<SphereCollider>();
 
     }
 
@@ -111,13 +118,18 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        checkPlayerState();//计算人物状态
-    }
+        checkPlayerState();//计算人物状态.
+		checkGround();//检测地面
+
+	}
 
     public void ReBorn(Vector3 rebornPoint)
 	{
-		transform.position = rebornPoint;
+		Vector3 rebornPos = rebornPoint;
+		rebornPos.y += sphereCollider.radius;
+		transform.position = rebornPos;
 		rb.velocity = Vector3.zero; //重置原有速度
+		rb.isKinematic = true;
 		checkRebornOnGround = false;
 
 		//decrease life number
@@ -216,19 +228,22 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
-    /// <summary>
-    ///	根据是否要落地保持静止来控制是否需要开启地面碰撞检测
-    /// </summary>
-    /// <param name="collision"></param>
-    //  private void OnCollisionEnter(Collision collision)
-    //  {
-    //      if(collision.gameObject.tag == "Ground")
-    //{
-    //	if(!checkRebornOnGround)
-    //	{
-    //              rb.velocity = Vector3.zero;
-    //              checkRebornOnGround = true;
-    //          }
-    //}
-    //  }
+	/// <summary>
+	///	根据是否要落地保持静止来控制是否需要开启地面碰撞检测
+	/// </summary>
+	/// <param name="collision"></param>
+	void checkGround()
+	{
+		if (!checkRebornOnGround)
+		{
+			if (Physics.Raycast(transform.position, Vector3.down, 0.51f, layers))
+			{
+
+				rb.velocity = Vector3.zero;
+				rb.isKinematic = false;
+				checkRebornOnGround = true;
+			}
+		}
+
+	}
 }
