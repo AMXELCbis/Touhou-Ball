@@ -17,7 +17,7 @@ public class RebornPoint : MonoBehaviour
 	private BoxCollider boxCollider;
 	private void Awake()
 	{
-
+		///使用时放置的平面需要拥有layers中包含的layer才可使用
 		RaycastHit[] hits;
 		if (rebornType == RebornType.Normal)
 		{

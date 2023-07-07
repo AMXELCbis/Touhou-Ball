@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using GameDefine;
 using System.Collections;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -12,8 +13,6 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public Text SpeedText;
 	public float maxSpeed;
-	public float maxSpeedX;
-	public float maxSpeedZ;
 	public bool checkRebornOnGround; //重生判断落地
 	public float addForceScale = 1; //施加的移动力大小
 
@@ -29,8 +28,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private PlayerStateCtrl playerState;
     [SerializeField]
-    public Vector2 kazeSlowDown = Vector2.zero;
-    public Vector2 kazeForce = Vector2.zero;
+    public Vector2 windSlowDown = Vector2.zero;
+    public Vector2 windForce = Vector2.zero;
     private Vector3 curMovement = Vector3.zero;
 	private SphereCollider sphereCollider;
 
@@ -96,7 +95,7 @@ public class PlayerController : MonoBehaviour {
         // Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
         // multiplying it by 'speed' - our public player speed that appears in the inspector
 
-        Vector3 kazePower = new Vector3(kazeForce.x, 0, kazeForce.y);
+        Vector3 kazePower = new Vector3(windForce.x, 0, windForce.y);
         rb.AddForce(curMovement * speed * addForceScale + kazePower);
 
         //if (XZvelocity.magnitude > curMaxSpeed)
@@ -143,74 +142,49 @@ public class PlayerController : MonoBehaviour {
 			LevelManager.instance.lastDownPoint = groundCheckPoint.position;
         }
     }
-    /// <summary>
-    /// 计算当前最大速度
-    /// </summary>
-    /// <returns></returns>
-    Vector2 calcMaxSpeed()
-    {        
-        float speedX = 0;
-        float speedZ = 0;
-        int vecScale = curMovement.x > 0 ? 1 : -1;
-        speedX = maxSpeedX * vecScale + kazeSlowDown.x;
-        vecScale = curMovement.z > 0 ? 1 : -1;
-        speedZ = maxSpeedZ * vecScale + kazeSlowDown.y;
+	/// <summary>
+	/// 计算当前最大速度
+	/// </summary>
+	/// <returns></returns>
+	Vector2 calcMaxSpeed()
+	{
+		//float speedX = 0;
+		//float speedZ = 0;
+		//int vecScale = curMovement.x > 0 ? 1 : -1;
+		//speedX = maxSpeedX * vecScale + windSlowDown.x;
+		//vecScale = curMovement.z > 0 ? 1 : -1;
+		//speedZ = maxSpeedZ * vecScale + windSlowDown.y;
 
-        Vector2 speedCheck = new Vector2(speedX, speedZ);
-        return speedCheck;
-    }
-    /// <summary>
-    /// 计算当前速度
-    /// </summary>
-    /// <returns></returns>
-    Vector2 calcMoveSpeed()
-    {
-        Vector2 XZvelocity = new Vector2(rb.velocity.x, rb.velocity.z);
-        Vector2 curMaxSpeed = calcMaxSpeed();
+		//Vector3 slowDown = new Vector3(windSlowDown.x, 0, windSlowDown.y);
+		Vector2 velocity = new Vector2(rb.velocity.x, rb.velocity.z);
+		Vector2 speedCheck = Vector2.zero;
+		float angle = Vector2.Angle(velocity, windSlowDown);
+		speedCheck.x = MathF.Abs(windSlowDown.x) * Mathf.Sin(angle * Mathf.Deg2Rad);
+		speedCheck.y = MathF.Abs(windSlowDown.y) * Mathf.Cos(angle * Mathf.Deg2Rad);
 
-        if (curMovement.x * curMaxSpeed.x >= 0)
-        {
-            float speedNum = Mathf.Abs(XZvelocity.x);
-            float speedmaxNum = Mathf.Abs(curMaxSpeed.x);
-            if (XZvelocity.x * curMaxSpeed.x >= 0)
-            {               
-                XZvelocity.x = speedNum > speedmaxNum ? curMaxSpeed.x : XZvelocity.x;
-            }
-            else
-            {
-                XZvelocity.x = speedNum > maxSpeedX ? maxSpeedX : XZvelocity.x;
-            }
 
-        }
-        else
-        {
+		return speedCheck;
+	}
+	/// <summary>
+	/// 计算当前速度
+	/// </summary>
+	/// <returns></returns>
+	Vector2 calcMoveSpeed()
+	{
+		Vector2 XZvelocity = new Vector2(rb.velocity.x, rb.velocity.z);
+		Vector2 curMaxSpeed = calcMaxSpeed();
+		float nowMaxSpeed = maxSpeed + curMaxSpeed.x + curMaxSpeed.y;
 
-        }
-
-       if (curMovement.z * curMaxSpeed.y >= 0)
-        {
-            float speedNum = Mathf.Abs(XZvelocity.y);
-            float speedmaxNum = Mathf.Abs(curMaxSpeed.y);
-            if (XZvelocity.y * curMaxSpeed.y >= 0)
-            {
-                XZvelocity.y = speedNum > speedmaxNum ? curMaxSpeed.y : XZvelocity.y;
-            }
-            else
-            {
-                XZvelocity.y = speedNum > maxSpeedZ ? maxSpeedZ : XZvelocity.y;
-            }
-        }
-        else
-        {
-
-        }
-
-        return XZvelocity;
-    }
-    /// <summary>
-    /// 检测当前角色所有状态
-    /// </summary>
-    public void checkPlayerState()
+		if (XZvelocity.magnitude > nowMaxSpeed)
+		{
+			XZvelocity = XZvelocity.normalized * nowMaxSpeed;
+		}
+		return XZvelocity;
+	}
+	/// <summary>
+	/// 检测当前角色所有状态
+	/// </summary>
+	public void checkPlayerState()
     {
         if(playerState  != null)
         {

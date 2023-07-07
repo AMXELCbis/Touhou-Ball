@@ -58,17 +58,17 @@ public class PlayerStateCtrl : MonoBehaviour
 	{
 		if (state.isOn)
 		{
-			playerController.kazeSlowDown.x = state.paramList[0];
-			playerController.kazeSlowDown.y = state.paramList[1];
-			playerController.kazeForce.x = state.paramList[2];
-			playerController.kazeForce.y = state.paramList[3];
+			playerController.windSlowDown.x = state.paramList[0];
+			playerController.windSlowDown.y = state.paramList[1];
+			playerController.windForce.x = state.paramList[2];
+			playerController.windForce.y = state.paramList[3];
 		}
 		else
 		{
-			playerController.kazeSlowDown.x = 0;
-			playerController.kazeSlowDown.y = 0;
-			playerController.kazeForce.x = 0;
-			playerController.kazeForce.y = 0;
+			playerController.windSlowDown.x = 0;
+			playerController.windSlowDown.y = 0;
+			playerController.windForce.x = 0;
+			playerController.windForce.y = 0;
 		}
 	}
 
