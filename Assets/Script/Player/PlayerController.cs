@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour {
     private Vector3 curMovement = Vector3.zero;
 	private SphereCollider sphereCollider;
 
+	public GameObject HinaObject = null;
+
 
 	// At the start of the game..
 	void Start ()
@@ -119,7 +121,15 @@ public class PlayerController : MonoBehaviour {
     {
         checkPlayerState();//计算人物状态.
 		checkGround();//检测地面
+		checkHina();//Checking whether on the top of the Hina item
+	}
 
+	void checkHina()
+	{
+		if(HinaObject != null)
+		{
+			this.gameObject.transform.SetParent(HinaObject.transform, true);
+		}
 	}
 
     public void ReBorn(Vector3 rebornPoint)
@@ -192,14 +202,20 @@ public class PlayerController : MonoBehaviour {
             {               
                     switch (pair.Key)
                     {
-                        case PlayerStateType.InKaze:
+					case PlayerStateType.InKaze:
 						{
 							playerState.OnInWind(pair.Value);
 							break;
 
 						}
-				}               
-            }
+					case PlayerStateType.InHina:
+						{
+							playerState.OnInHina(pair.Value);
+							break;
+
+						}
+				}
+			}
         }
     }
 	/// <summary>

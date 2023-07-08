@@ -5,12 +5,15 @@ using GameDefine;
 [SerializeField]
 public class PlayerState
 {
-    /// <summary>
-    /// 参数列表
-    /// </summary>
-    public List<float> paramList = new List<float>();
+	/// <summary>
+	/// 参数列表
+	/// </summary>
+	public List<float> FloatparamList = new List<float>();
 
-    public bool isOn = false;
+	public List<GameObject> ObjectparamList = new List<GameObject>();
+
+
+	public bool isOn = false;
 
     public int layer = 0;
 
@@ -23,9 +26,9 @@ public class PlayerState
         {
             if(first.stateType == second.stateType)
             {
-                for(int i = 0; i < result.paramList.Count; i++)
+                for(int i = 0; i < result.FloatparamList.Count; i++)
                 {
-                    result.paramList[i] += second.paramList[i];
+                    result.FloatparamList[i] += second.FloatparamList[i];
                 }
                 result.layer = result.layer + second.layer;
                 result.isOn = result.layer > 0;
@@ -42,10 +45,10 @@ public class PlayerState
         {
             if(first.stateType == second.stateType)
             {
-                for (int i = 0; i < result.paramList.Count; i++)
+                for (int i = 0; i < result.FloatparamList.Count; i++)
                 {
-                    result.paramList[i] -= second.paramList[i];
-                    result.paramList[i] = result.paramList[i] < 0? 0 : result.paramList[i];
+                    result.FloatparamList[i] -= second.FloatparamList[i];
+                    result.FloatparamList[i] = result.FloatparamList[i] < 0? 0 : result.FloatparamList[i];
                 }
                 result.layer = result.layer - second.layer;
 

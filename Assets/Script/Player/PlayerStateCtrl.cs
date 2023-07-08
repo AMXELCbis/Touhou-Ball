@@ -18,7 +18,7 @@ public class PlayerStateCtrl : MonoBehaviour
 	private Rect scrollRect = Rect.zero;
 	//////////////////////////////////////////////////////////////
 
-
+	private GameObject PlayerSet;
 
 
 	[SerializeField]
@@ -26,6 +26,7 @@ public class PlayerStateCtrl : MonoBehaviour
 	[SerializeField]
 	public Dictionary<PlayerStateType, PlayerState> stateDic = new Dictionary<PlayerStateType, PlayerState>();
 
+	private NormalDefine normalDefine;
 	public void AddState(PlayerStateType type, PlayerState state, int layer = 1)
 	{
 		if (stateDic.ContainsKey(type))
@@ -53,15 +54,18 @@ public class PlayerStateCtrl : MonoBehaviour
 
 		}
 	}
-
+	private void Start()
+	{
+		PlayerSet = GameObject.Find("PlayerSet");
+	}
 	public void OnInWind(PlayerState state)
 	{
 		if (state.isOn)
 		{
-			playerController.windSlowDown.x = state.paramList[0];
-			playerController.windSlowDown.y = state.paramList[1];
-			playerController.windForce.x = state.paramList[2];
-			playerController.windForce.y = state.paramList[3];
+			playerController.windSlowDown.x = state.FloatparamList[0];
+			playerController.windSlowDown.y = state.FloatparamList[1];
+			playerController.windForce.x = state.FloatparamList[2];
+			playerController.windForce.y = state.FloatparamList[3];
 		}
 		else
 		{
@@ -71,6 +75,21 @@ public class PlayerStateCtrl : MonoBehaviour
 			playerController.windForce.y = 0;
 		}
 	}
+
+
+	public void OnInHina(PlayerState state)
+	{
+		if (state.isOn)
+		{
+			playerController.HinaObject = state.ObjectparamList[0];
+		}
+		else
+		{
+			playerController.HinaObject = PlayerSet;
+		}
+
+	}
+
 
 #if UNITY_EDITOR
 	public void OnGUI()
@@ -99,9 +118,9 @@ public class PlayerStateCtrl : MonoBehaviour
 			foreach (var state in stateDic)
 			{
 				show += "状态类型:  " + state.Value.stateType.ToString() + "  激活状态:  " + state.Value.isOn + "\r\n";
-				for (int i = 0; i < state.Value.paramList.Count; i++)
+				for (int i = 0; i < state.Value.FloatparamList.Count; i++)
 				{
-					show += " 参数" + i + ":  " + state.Value.paramList[i] + "\r\n";
+					show += " 参数" + i + ":  " + state.Value.FloatparamList[i] + "\r\n";
 				}
 				show += "/////////////////////分隔符////////////////////\r\n";
 			}

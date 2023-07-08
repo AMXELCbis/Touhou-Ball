@@ -14,6 +14,10 @@ using UnityEngine;
         /// param = 4 , 1、2号位表示最大速度受风力影响值 3、4号位表示风力附加值
         /// </summary>
         InKaze = 0,
+
+		// param = 1, only contains the Hina gameobject or PlayerSet
+		InHina = 1,
+		
     }
 
     /// <summary>
@@ -22,6 +26,6 @@ using UnityEngine;
     public class NormalDefine
     {
 
-    }
+	}
 
 }
