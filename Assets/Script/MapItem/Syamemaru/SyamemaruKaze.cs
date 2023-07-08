@@ -34,10 +34,10 @@ public class SyamemaruKaze : MonoBehaviour
         {
             PlayerStateCtrl ctrller = other.gameObject.GetComponent<PlayerStateCtrl>();
             PlayerState state = new PlayerState();
-            state.paramList.Add(kazeVec.x * kazeSlowPower);
-            state.paramList.Add(kazeVec.z * kazeSlowPower);
-            state.paramList.Add(kazeVec.x * kazePower);
-            state.paramList.Add(kazeVec.z * kazePower);
+            state.FloatparamList.Add(kazeVec.x * kazeSlowPower);
+            state.FloatparamList.Add(kazeVec.z * kazeSlowPower);
+            state.FloatparamList.Add(kazeVec.x * kazePower);
+            state.FloatparamList.Add(kazeVec.z * kazePower);
 
             ctrller?.AddState(PlayerStateType.InKaze,  state, 1);
         }
@@ -58,10 +58,10 @@ public class SyamemaruKaze : MonoBehaviour
         {
             PlayerStateCtrl ctrller = other.gameObject.GetComponent<PlayerStateCtrl>();
             PlayerState state = new PlayerState();
-            state.paramList.Add(kazeVec.x * kazeSlowPower);
-            state.paramList.Add(kazeVec.z * kazeSlowPower);
-            state.paramList.Add(kazeVec.x * kazePower);
-            state.paramList.Add(kazeVec.z * kazePower);
+            state.FloatparamList.Add(kazeVec.x * kazeSlowPower);
+            state.FloatparamList.Add(kazeVec.z * kazeSlowPower);
+            state.FloatparamList.Add(kazeVec.x * kazePower);
+            state.FloatparamList.Add(kazeVec.z * kazePower);
 
             ctrller?.RemoveState(PlayerStateType.InKaze, state, 1);
         }
