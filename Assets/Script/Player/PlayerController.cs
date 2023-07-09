@@ -33,8 +33,9 @@ public class PlayerController : MonoBehaviour {
     private Vector3 curMovement = Vector3.zero;
 	private SphereCollider sphereCollider;
 
+	// Hina
 	public GameObject HinaObject = null;
-
+	public float HinaForce = 0;
 
 	// At the start of the game..
 	void Start ()
@@ -126,13 +127,31 @@ public class PlayerController : MonoBehaviour {
 
 	void checkHina()
 	{
+		//setting the parent
 		if(HinaObject != null)
 		{
-			this.gameObject.transform.SetParent(HinaObject.transform, true);
+			if (this.gameObject.transform.parent != HinaObject.transform)
+			{ 
+				this.gameObject.transform.SetParent(HinaObject.transform, true);
+			}
+		}
+
+		//adding an additional Hina Force
+		if (HinaForce != 0)
+		{
+			Rigidbody rb = GetComponent<Rigidbody>();
+			Vector2 ForceDirect =
+				new Vector2
+				(rb.transform.position.x - HinaObject.transform.position.x,
+				 rb.transform.position.z - HinaObject.transform.position.z);
+
+			ForceDirect = ForceDirect.normalized * HinaForce;
+
+			rb.AddForce(ForceDirect.x, 0, ForceDirect.y);
 		}
 	}
 
-    public void ReBorn(Vector3 rebornPoint)
+	public void ReBorn(Vector3 rebornPoint)
 	{
 		Vector3 rebornPos = rebornPoint;
 		rebornPos.y += sphereCollider.radius;

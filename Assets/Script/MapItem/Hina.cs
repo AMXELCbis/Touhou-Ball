@@ -7,6 +7,7 @@ using UnityEngine;
 public class Hina : MonoBehaviour
 {
 	public Vector3 rotate;
+	public float RotateForce;
 
 	private Transform tran;
 
@@ -31,7 +32,10 @@ public class Hina : MonoBehaviour
 			PlayerStateCtrl ctrller = other.gameObject.GetComponent<PlayerStateCtrl>();
 			PlayerState state = new PlayerState();
 			state.stateType = PlayerStateType.InHina;
+
 			state.ObjectparamList.Add(this.gameObject);
+			state.FloatparamList.Add(RotateForce);
+
 
 			ctrller?.AddState(PlayerStateType.InHina, state, 1);
 		}
@@ -46,6 +50,7 @@ public class Hina : MonoBehaviour
 			state.stateType = PlayerStateType.InHina;
 
 			state.ObjectparamList.Add(null);
+			state.FloatparamList.Add(RotateForce);
 
 
 			ctrller?.RemoveState(PlayerStateType.InHina, state, 1);
