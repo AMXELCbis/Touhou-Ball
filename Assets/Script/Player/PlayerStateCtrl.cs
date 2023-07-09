@@ -82,10 +82,14 @@ public class PlayerStateCtrl : MonoBehaviour
 		if (state.isOn)
 		{
 			playerController.HinaObject = state.ObjectparamList[0];
+			playerController.HinaForce = state.FloatparamList[0];
+
 		}
 		else
 		{
 			playerController.HinaObject = PlayerSet;
+			playerController.HinaForce = 0;
+
 		}
 
 	}

@@ -15,7 +15,8 @@ using UnityEngine;
         /// </summary>
         InKaze = 0,
 
-		// param = 1, only contains the Hina gameobject or PlayerSet
+		// Tow lists, one object list only contains the Hina object
+		//one float list only contains the Hina Force
 		InHina = 1,
 		
     }
