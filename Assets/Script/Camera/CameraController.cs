@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour {

@@ -4,7 +4,6 @@
 using UnityEngine.UI;
 using GameDefine;
 using System.Collections;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using System;
 
 public class PlayerController : MonoBehaviour {
