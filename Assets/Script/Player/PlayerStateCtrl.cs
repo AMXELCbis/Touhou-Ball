@@ -83,12 +83,19 @@ public class PlayerStateCtrl : MonoBehaviour
 		{
 			playerController.HinaObject = state.ObjectparamList[0];
 			playerController.HinaForce = state.FloatparamList[0];
+			playerController.HinaRotate.x = state.FloatparamList[1];
+			playerController.HinaRotate.y = state.FloatparamList[2];
+			playerController.HinaRotate.z = state.FloatparamList[3];
 
 		}
 		else
 		{
 			playerController.HinaObject = PlayerSet;
 			playerController.HinaForce = 0;
+			playerController.HinaRotate.x = 0;
+			playerController.HinaRotate.y = 0;
+			playerController.HinaRotate.z = 0;
+
 
 		}
 

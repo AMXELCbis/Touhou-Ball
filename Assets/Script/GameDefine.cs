@@ -16,7 +16,7 @@ using UnityEngine;
         InKaze = 0,
 
 		// Tow lists, one object list only contains the Hina object
-		//one float list only contains the Hina Force
+		// The float list contains the Hina Force[0] and the rotate x/y/z [1~3]
 		InHina = 1,
 		
     }

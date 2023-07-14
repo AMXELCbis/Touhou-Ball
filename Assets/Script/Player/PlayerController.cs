@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
 	// Hina
 	public GameObject HinaObject = null;
 	public float HinaForce = 0;
+	public Vector3 HinaRotate = Vector3.zero;
 
 	// At the start of the game..
 	void Start ()
@@ -146,7 +147,19 @@ public class PlayerController : MonoBehaviour {
 
 			ForceDirect = ForceDirect.normalized * HinaForce;
 
+			//The exact same Hina Force but vectical
+			Vector2 VecticalForceDirect = Vector2.zero;
+
+			//Check the rotation
+			if (HinaRotate.y >0)
+				VecticalForceDirect = new Vector2(ForceDirect.y, -ForceDirect.x);
+			else if (HinaRotate.y < 0)
+				VecticalForceDirect = new Vector2(-ForceDirect.y, ForceDirect.x);
+
+
 			rb.AddForce(ForceDirect.x, 0, ForceDirect.y);
+				if(VecticalForceDirect != Vector2.zero)
+			rb.AddForce(VecticalForceDirect.x, 0, VecticalForceDirect.y);
 		}
 	}
 

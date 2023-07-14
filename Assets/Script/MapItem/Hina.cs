@@ -35,6 +35,9 @@ public class Hina : MonoBehaviour
 
 			state.ObjectparamList.Add(this.gameObject);
 			state.FloatparamList.Add(RotateForce);
+			state.FloatparamList.Add(rotate.x);
+			state.FloatparamList.Add(rotate.y);
+			state.FloatparamList.Add(rotate.z);
 
 
 			ctrller?.AddState(PlayerStateType.InHina, state, 1);
@@ -51,6 +54,9 @@ public class Hina : MonoBehaviour
 
 			state.ObjectparamList.Add(null);
 			state.FloatparamList.Add(RotateForce);
+			state.FloatparamList.Add(rotate.x);
+			state.FloatparamList.Add(rotate.y);
+			state.FloatparamList.Add(rotate.z);
 
 
 			ctrller?.RemoveState(PlayerStateType.InHina, state, 1);
