@@ -15,50 +15,60 @@ public class PlayerState
 
 	public bool isOn = false;
 
-    public int layer = 0;
+	public int layer = 0;
 
-    public PlayerStateType stateType;
+	public PlayerStateType stateType;
 
-    public static PlayerState operator +(PlayerState first, PlayerState second)
-    {
-        PlayerState result = first;
-        if (first != null && second != null)
-        {
-            if(first.stateType == second.stateType)
-            {
-                for(int i = 0; i < result.FloatparamList.Count; i++)
-                {
-                    result.FloatparamList[i] += second.FloatparamList[i];
-                }
-                result.layer = result.layer + second.layer;
-                result.isOn = result.layer > 0;
-            }
-        }
+	public static PlayerState operator +(PlayerState first, PlayerState second)
+	{
+		PlayerState result = first;
+		if (first != null && second != null)
+		{
+			if (first.stateType == second.stateType)
+			{
+				for (int i = 0; i < result.FloatparamList.Count; i++)
+				{
+					result.FloatparamList[i] += second.FloatparamList[i];
+				}
+				for (int i = 0; i < second.ObjectparamList.Count; i++)
+				{
+					result.ObjectparamList.Add(second.ObjectparamList[i]);
 
-        return result;
+				}
+				result.layer = result.layer + second.layer;
+				result.isOn = result.layer > 0;
+			}
+		}
 
-    }
-    public static PlayerState operator -(PlayerState first, PlayerState second)
-    {
-        PlayerState result = first;
-        if (first != null && second != null)
-        {
-            if(first.stateType == second.stateType)
-            {
-                for (int i = 0; i < result.FloatparamList.Count; i++)
-                {
-                    result.FloatparamList[i] -= second.FloatparamList[i];
-                    result.FloatparamList[i] = result.FloatparamList[i] < 0? 0 : result.FloatparamList[i];
-                }
-                result.layer = result.layer - second.layer;
+		return result;
 
-                result.layer = result.layer < 0 ? 0 : result.layer;
-                result.isOn = result.layer > 0;
-            }
-        }
+	}
+	public static PlayerState operator -(PlayerState first, PlayerState second)
+	{
+		PlayerState result = first;
+		if (first != null && second != null)
+		{
+			if (first.stateType == second.stateType)
+			{
+				for (int i = 0; i < result.FloatparamList.Count; i++)
+				{
+					result.FloatparamList[i] -= second.FloatparamList[i];
+					result.FloatparamList[i] = result.FloatparamList[i] < 0 ? 0 : result.FloatparamList[i];
+				}
+				for (int i = 0; i < second.ObjectparamList.Count; i++)
+				{
+					result.ObjectparamList.Remove(second.ObjectparamList[i]);
 
-        return result;
+				}
+				result.layer = result.layer - second.layer;
 
-    }
+				result.layer = result.layer < 0 ? 0 : result.layer;
+				result.isOn = result.layer > 0;
+			}
+		}
+
+		return result;
+
+	}
 
 }
