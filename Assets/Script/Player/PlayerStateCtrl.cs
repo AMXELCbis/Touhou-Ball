@@ -29,6 +29,7 @@ public class PlayerStateCtrl : MonoBehaviour
 	private NormalDefine normalDefine;
 	public void AddState(PlayerStateType type, PlayerState state, int layer = 1)
 	{
+		state.stateType = type;
 		if (stateDic.ContainsKey(type))
 		{
 			state.layer = layer;
@@ -44,6 +45,7 @@ public class PlayerStateCtrl : MonoBehaviour
 
 	public void RemoveState(PlayerStateType type, PlayerState state, int layer = 1)
 	{
+		state.stateType = type;
 		if (stateDic.ContainsKey(type))
 		{
 			state.layer = layer;
@@ -90,6 +92,21 @@ public class PlayerStateCtrl : MonoBehaviour
 			playerController.HinaObject = PlayerSet;
 			playerController.HinaForce = 0;
 
+		}
+
+	}
+
+	public void OnSlippy(PlayerState state)
+	{
+		if (state.isOn && playerController.isOnGround)
+		{
+			playerController.rb.drag = state.FloatparamList[0];
+			playerController.nitoriScale = state.FloatparamList[1];
+		}
+		else
+		{
+			playerController.rb.drag = 1;
+			playerController.nitoriScale = 1;
 		}
 
 	}

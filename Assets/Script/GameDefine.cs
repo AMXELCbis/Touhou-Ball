@@ -18,8 +18,13 @@ using UnityEngine;
 		// Tow lists, one object list only contains the Hina object
 		//one float list only contains the Hina Force
 		InHina = 1,
-		
-    }
+
+		/// <summary>
+		/// param = 1, 1号位表示打滑影响值
+		/// </summary>
+		Slippy = 2,
+
+	}
 
     /// <summary>
     /// 有需要用到一些多处会用到的常量就加在此处 最好不要修改值
