@@ -52,7 +52,7 @@ public class Hina : MonoBehaviour
 			PlayerState state = new PlayerState();
 			state.stateType = PlayerStateType.InHina;
 
-			state.ObjectparamList.Add(null);
+			state.ObjectparamList.Add(this.gameObject);
 			state.FloatparamList.Add(RotateForce);
 			state.FloatparamList.Add(rotate.x);
 			state.FloatparamList.Add(rotate.y);

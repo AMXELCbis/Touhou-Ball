@@ -17,7 +17,7 @@ public class SyamemaruKaze : MonoBehaviour
     [SerializeField, Header("终点")]
     Transform endPoint;
     [SerializeField, Header("风力影响最大速度参数")]
-    private float kazeSlowPower;
+    private float windSlowPower;
 
     private void Start()
     {
@@ -34,8 +34,8 @@ public class SyamemaruKaze : MonoBehaviour
         {
             PlayerStateCtrl ctrller = other.gameObject.GetComponent<PlayerStateCtrl>();
             PlayerState state = new PlayerState();
-            state.FloatparamList.Add(kazeVec.x * kazeSlowPower);
-            state.FloatparamList.Add(kazeVec.z * kazeSlowPower);
+            state.FloatparamList.Add(kazeVec.x * windSlowPower);
+            state.FloatparamList.Add(kazeVec.z * windSlowPower);
             state.FloatparamList.Add(kazeVec.x * kazePower);
             state.FloatparamList.Add(kazeVec.z * kazePower);
 
@@ -43,23 +43,14 @@ public class SyamemaruKaze : MonoBehaviour
         }
     }
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other?.gameObject.tag == "Player")
-    //    {
-    //        PlayerController ctrller = other.gameObject.GetComponent<PlayerController>();
-    //        ctrller?.rb?.AddForce(kazeVec * kazePower);
-    //    }
-    //}
-
     private void OnTriggerExit(Collider other)
     {
         if (other?.gameObject.tag == "Player")
         {
             PlayerStateCtrl ctrller = other.gameObject.GetComponent<PlayerStateCtrl>();
             PlayerState state = new PlayerState();
-            state.FloatparamList.Add(kazeVec.x * kazeSlowPower);
-            state.FloatparamList.Add(kazeVec.z * kazeSlowPower);
+            state.FloatparamList.Add(kazeVec.x * windSlowPower);
+            state.FloatparamList.Add(kazeVec.z * windSlowPower);
             state.FloatparamList.Add(kazeVec.x * kazePower);
             state.FloatparamList.Add(kazeVec.z * kazePower);
 

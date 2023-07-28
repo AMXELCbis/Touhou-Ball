@@ -15,8 +15,8 @@ public class LevelManager : MonoBehaviour
 
     public Vector3 lastDownPoint;
 
-    public Vector3 curForward;//µ±Ç°Ç°·½
-    public Vector3 curRight//µ±Ç°ÓÒ·½
+    public Vector3 curForward;//当前前方
+    public Vector3 curRight//当前右方
     {
         get
         {

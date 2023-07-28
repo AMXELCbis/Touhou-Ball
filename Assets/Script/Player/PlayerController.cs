@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	public float maxSpeed;
 	public bool checkRebornOnGround; //重生判断落地
 	public float addForceScale = 1; //施加的移动力大小
+	public float nitoriScale = 1;//荷取能力影响施力参数
 
     // Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
     public Rigidbody rb;
@@ -29,8 +30,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     public Vector2 windSlowDown = Vector2.zero;
     public Vector2 windForce = Vector2.zero;
+	public bool isOnGround = false;
     private Vector3 curMovement = Vector3.zero;
 	private SphereCollider sphereCollider;
+	[SerializeField]
+	float normalForceScale = 1, uTurnForceScale = 10;
 
 	// Hina
 	public GameObject HinaObject = null;
@@ -50,72 +54,48 @@ public class PlayerController : MonoBehaviour {
 
 	//Check the speed and the current direction, if not the same, increase the force
 	//until current speed is equal to 0
-    void Checkdirection(Vector3 movement, Vector3 currentSpeed, float AddedSpeed)
+    void Checkdirection(Vector3 movement, Vector3 currentSpeed)
 	{
 
 		//x axis
-		if ((currentSpeed.x > 0 && movement.x >=0 ) ||
-            (currentSpeed.x < 0 && movement.x <= 0)) 
+		//if ((currentSpeed.x > 0 && movement.x >=0 ) ||
+		//          (currentSpeed.x < 0 && movement.x <= 0)) 
+		//{
+		//	addForceScale = normalForceScale;
+		//}
+		//else
+		//{
+		//	addForceScale = uTurnForceScale;
+		//}
+
+		//      //z axis
+		//      if ((currentSpeed.z > 0 && movement.z >= 0) ||
+		//	(currentSpeed.z < 0 && movement.z <= 0))
+		//      {
+		//	addForceScale = normalForceScale;
+		//      }
+		//      else
+		//      {
+		//	addForceScale = uTurnForceScale;
+		//      }
+
+		if ((currentSpeed.x * movement.x < 0) && (currentSpeed.z * movement.z < 0))
 		{
-            AddedSpeed = 1;
+			addForceScale = uTurnForceScale;
 		}
 		else
 		{
-           AddedSpeed = 50;
+			addForceScale = normalForceScale;
 		}
+		addForceScale *= nitoriScale;
 
-        //z axis
-        if ((currentSpeed.z > 0 && movement.z >= 0) ||
-			(currentSpeed.z < 0 && movement.z <= 0))
-        {
-            AddedSpeed = 1;
-        }
-        else
-        {
-            AddedSpeed = 50;
-        }
 
-    }
+	}
 
-    void FixedUpdate ()
+	void FixedUpdate ()
 	{
-		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
-		Rigidbody rb = GetComponent<Rigidbody>();
-        Vector3 currentSpeed = rb.velocity;
-		//int addForce = 1;
-
-		// Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
-		curMovement = moveVertical * LevelManager.instance.curForward + moveHorizontal * LevelManager.instance.curRight;
-        //Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-		// check if wsad get pressed or not
-        if (curMovement != Vector3.zero) 
-			Checkdirection(curMovement, currentSpeed, addForceScale);
-
-
-        // Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
-        // multiplying it by 'speed' - our public player speed that appears in the inspector
-
-        Vector3 kazePower = new Vector3(windForce.x, 0, windForce.y);
-        rb.AddForce(curMovement * speed * addForceScale + kazePower);
-
-        //if (XZvelocity.magnitude > curMaxSpeed)
-        //{
-        //    XZvelocity = XZvelocity.normalized * curMaxSpeed;
-        //}
-        Vector2 XZvelocity = calcMoveSpeed();
-        rb.velocity = new Vector3(XZvelocity.x, rb.velocity.y, XZvelocity.y);
-
-        // display speed
-        if (SpeedText != null )
-		{
-            SpeedText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
-        }
-
-
-        CheckGroundPoint();
+		checkMove();
+		CheckGroundPoint();
     }
 
     private void Update()
@@ -123,6 +103,47 @@ public class PlayerController : MonoBehaviour {
         checkPlayerState();//计算人物状态.
 		checkGround();//检测地面
 		checkHina();//Checking whether on the top of the Hina item
+	}
+
+	void checkMove()
+	{
+		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
+		float moveHorizontal = Input.GetAxis("Horizontal");
+		float moveVertical = Input.GetAxis("Vertical");
+		Rigidbody rb = GetComponent<Rigidbody>();
+		Vector3 currentSpeed = rb.velocity;
+		//int addForce = 1;
+
+		// Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
+		curMovement = moveVertical * LevelManager.instance.curForward + moveHorizontal * LevelManager.instance.curRight;
+		//Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+		// check if wsad get pressed or not
+		if (curMovement != Vector3.zero)
+			Checkdirection(curMovement, currentSpeed);
+
+
+		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
+		// multiplying it by 'speed' - our public player speed that appears in the inspector
+
+		Vector3 kazePower = new Vector3(windForce.x, 0, windForce.y);
+		Vector3 moveForce = curMovement * speed * addForceScale + kazePower;
+
+		rb.AddForce(moveForce);
+
+		//if (XZvelocity.magnitude > curMaxSpeed)
+		//{
+		//    XZvelocity = XZvelocity.normalized * curMaxSpeed;
+		//}
+		Vector2 XZvelocity = calcMoveSpeed();
+		rb.velocity = new Vector3(XZvelocity.x, rb.velocity.y, XZvelocity.y);
+
+		// display speed
+		if (SpeedText != null)
+		{
+			SpeedText.text = "speed: " + currentSpeed.x.ToString() + "\t" + currentSpeed.z.ToString();
+		}
+
 	}
 
 	void checkHina()
@@ -215,7 +236,7 @@ public class PlayerController : MonoBehaviour {
 		Vector2 XZvelocity = new Vector2(rb.velocity.x, rb.velocity.z);
 		Vector2 curMaxSpeed = calcMaxSpeed();
 		float nowMaxSpeed = maxSpeed + curMaxSpeed.x + curMaxSpeed.y;
-
+		print("curMaxSpeed" + nowMaxSpeed + "  " + XZvelocity.magnitude);
 		if (XZvelocity.magnitude > nowMaxSpeed)
 		{
 			XZvelocity = XZvelocity.normalized * nowMaxSpeed;
@@ -245,6 +266,11 @@ public class PlayerController : MonoBehaviour {
 							break;
 
 						}
+					case PlayerStateType.Slippy:
+						{
+							playerState.OnSlippy(pair.Value);
+							break;
+						}
 				}
 			}
         }
@@ -255,15 +281,21 @@ public class PlayerController : MonoBehaviour {
 	/// <param name="collision"></param>
 	void checkGround()
 	{
-		if (!checkRebornOnGround)
+		RaycastHit[] hits;
+		hits = Physics.RaycastAll(transform.position, Vector3.down, sphereCollider.radius + 1f, layers);
+		if (hits.Length > 0)
 		{
-			if (Physics.Raycast(transform.position, Vector3.down, 0.51f, layers))
+			if (!checkRebornOnGround)
 			{
-
 				rb.velocity = Vector3.zero;
 				rb.isKinematic = false;
 				checkRebornOnGround = true;
 			}
+			isOnGround = true;
+		}
+		else
+		{
+			isOnGround = false;
 		}
 
 	}
