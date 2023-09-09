@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	float normalForceScale = 1, uTurnForceScale = 10;
 	float rebornFxShowTime = 1;
+	[SerializeField]
+	bool isReborning = false;
 
 	// Hina
 	public GameObject HinaObject = null;
@@ -110,6 +112,10 @@ public class PlayerController : MonoBehaviour {
 
 	void checkMove()
 	{
+		if(isReborning)
+		{
+			return;
+		}
 		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
@@ -204,8 +210,10 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator closeRebornFx()
 	{
+		isReborning = true;
 		yield return new WaitForSeconds(rebornFxShowTime);
 		rebornFX.SetActive(false);
+		isReborning = false;
 	}
 
     public void CheckGroundPoint()
@@ -309,5 +317,6 @@ public class PlayerController : MonoBehaviour {
 			isOnGround = false;
 		}
 
+		rebornFX.transform.position = transform.position;
 	}
 }
