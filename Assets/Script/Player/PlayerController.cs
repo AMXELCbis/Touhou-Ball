@@ -33,8 +33,13 @@ public class PlayerController : MonoBehaviour {
     public Vector2 kazeForce = Vector2.zero;
     private Vector3 curMovement = Vector3.zero;
 	private SphereCollider sphereCollider;
+	[SerializeField]
+	float normalForceScale = 1, uTurnForceScale = 10;
+	float rebornFxShowTime = 1;
 
 
+	[SerializeField]
+	GameObject rebornFX;
 	// At the start of the game..
 	void Start ()
 	{
@@ -134,6 +139,14 @@ public class PlayerController : MonoBehaviour {
 
 		//decrease life number
 		LevelManager.instance.PlayerLife--;
+		rebornFX.SetActive(true);
+		StartCoroutine(closeRebornFx());
+	}
+
+	IEnumerator closeRebornFx()
+	{
+		yield return new WaitForSeconds(rebornFxShowTime);
+		rebornFX.SetActive(false);
 	}
 
     public void CheckGroundPoint()
