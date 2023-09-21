@@ -33,7 +33,9 @@ public class Menu_Ball : MonoBehaviour
 
 	 void FixedUpdate()
 	{
-		if(dragging) 
+		Quaternion TempRotation =transform.rotation;
+
+		if (dragging) 
 		{
 			float x = Input.GetAxis("Mouse X") * rotationSpeed * Time.fixedDeltaTime;
 			float y = Input.GetAxis("Mouse Y") * rotationSpeed * Time.fixedDeltaTime;
@@ -44,7 +46,25 @@ public class Menu_Ball : MonoBehaviour
 		}
 		if (!dragging)
 		{
-				transform.rotation = Quaternion.Slerp(transform.rotation, defaultRotation, Time.deltaTime * damp);
+			//transform.eulerAngles = new Vector3(transform.eulerAngles.x+1f, transform.eulerAngles.y, transform.eulerAngles.z);
+
+			//transform.rotation = Quaternion.Euler(transform.eulerAngles.x + 1f, 0,0);
+			
+
+			//transform.rotation = Quaternion.Slerp(transform.rotation, defaultRotation, Time.deltaTime * damp);
 		}
+
+		//if (TempRotation.y < -90f && time < 1)
+		//{
+		//	time += Time.deltaTime / 2;
+		//}
+		//if (TempRotation.y > -90f && time > 0)
+		//{
+		//	time += Time.deltaTime / 2;
+		//}
+
+		//TempRotation.y = Mathf.Lerp(TempRotation.y, -90, time);
+
+		//transform.eulerAngles = TempRotation;
 	}
 }
