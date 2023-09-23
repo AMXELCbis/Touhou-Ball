@@ -98,5 +98,10 @@ public class CameraController : MonoBehaviour {
 		{
             cameraRotateAnim.ResetTrigger("Right");
         }
+		if (Input.GetKeyDown(KeyCode.Q))
+		{
+			cameraRotateAnim.SetTrigger("Zoom");
+		}
+
 	}
 }
