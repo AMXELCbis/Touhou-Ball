@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour {
 		Vector2 XZvelocity = new Vector2(rb.velocity.x, rb.velocity.z);
 		Vector2 curMaxSpeed = calcMaxSpeed();
 		float nowMaxSpeed = maxSpeed + curMaxSpeed.x + curMaxSpeed.y;
-		print("curMaxSpeed" + nowMaxSpeed + "  " + XZvelocity.magnitude);
+		//print("curMaxSpeed" + nowMaxSpeed + "  " + XZvelocity.magnitude);
 		if (XZvelocity.magnitude > nowMaxSpeed)
 		{
 			XZvelocity = XZvelocity.normalized * nowMaxSpeed;

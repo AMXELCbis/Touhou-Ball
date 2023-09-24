@@ -28,6 +28,8 @@ public class PlayerState
 			{
 				for (int i = 0; i < result.FloatparamList.Count; i++)
 				{
+					Debug.Log("ADD " + result.FloatparamList[i] + " " + second.FloatparamList[i]);
+
 					result.FloatparamList[i] += second.FloatparamList[i];
 				}
 				for (int i = 0; i < second.ObjectparamList.Count; i++)
@@ -52,8 +54,9 @@ public class PlayerState
 			{
 				for (int i = 0; i < result.FloatparamList.Count; i++)
 				{
+					Debug.Log("Minues " + result.FloatparamList[i] + " " + second.FloatparamList[i]);
 					result.FloatparamList[i] -= second.FloatparamList[i];
-					result.FloatparamList[i] = result.FloatparamList[i] < 0 ? 0 : result.FloatparamList[i];
+					//result.FloatparamList[i] = result.FloatparamList[i] < 0 ? 0 : result.FloatparamList[i];
 				}
 				for (int i = 0; i < second.ObjectparamList.Count; i++)
 				{
