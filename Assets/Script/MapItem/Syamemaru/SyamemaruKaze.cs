@@ -38,8 +38,8 @@ public class SyamemaruKaze : MonoBehaviour
             state.FloatparamList.Add(kazeVec.z * windSlowPower);
             state.FloatparamList.Add(kazeVec.x * kazePower);
             state.FloatparamList.Add(kazeVec.z * kazePower);
-
-            ctrller?.AddState(PlayerStateType.InKaze,  state, 1);
+			Debug.Log("ADD1 " + state.FloatparamList[0] + " " + state.FloatparamList[1] + " " + state.FloatparamList[2] + " " + state.FloatparamList[3]);
+			ctrller?.AddState(PlayerStateType.InKaze,  state, 1);
         }
     }
 
@@ -53,8 +53,8 @@ public class SyamemaruKaze : MonoBehaviour
             state.FloatparamList.Add(kazeVec.z * windSlowPower);
             state.FloatparamList.Add(kazeVec.x * kazePower);
             state.FloatparamList.Add(kazeVec.z * kazePower);
-
-            ctrller?.RemoveState(PlayerStateType.InKaze, state, 1);
+			Debug.Log("Minues1 " + state.FloatparamList[0] + " " + state.FloatparamList[1] + " " + state.FloatparamList[2] + " " + state.FloatparamList[3]);
+			ctrller?.RemoveState(PlayerStateType.InKaze, state, 1);
         }
     }
 }

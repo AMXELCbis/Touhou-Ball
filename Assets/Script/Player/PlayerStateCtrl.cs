@@ -29,6 +29,7 @@ public class PlayerStateCtrl : MonoBehaviour
 	private NormalDefine normalDefine;
 	public void AddState(PlayerStateType type, PlayerState state, int layer = 1)
 	{
+		print("AddState");
 		state.stateType = type;
 		if (stateDic.ContainsKey(type))
 		{
