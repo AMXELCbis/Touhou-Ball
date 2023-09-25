@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour {
 	private bool isUpPoint = false;
 	private bool isZoom = false;
 	private bool isOption = false;
+	private bool isWindow = false;
 	private float time = 0.1f;
 
 	DepthOfField dofComponent;
@@ -175,6 +176,21 @@ public class CameraController : MonoBehaviour {
 		}
 	}
 
+	public void InYesOrNoWindow()
+	{
+		isWindow = !isWindow;
+
+		if(isWindow)
+		{
+			dofComponent.focalLength.value = 1;
+
+		}
+		else
+		{
+			dofComponent.focalLength.value = 300;
+
+		}
+	}
 	private void PauseResumeTheGame()
 	{
 		isZoom = !isZoom;
