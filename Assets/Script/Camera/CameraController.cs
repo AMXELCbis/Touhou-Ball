@@ -2,6 +2,8 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine.UIElements;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class CameraController : MonoBehaviour {
 
@@ -17,18 +19,36 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     private Transform _upPoint; //抬起镜头方位
     [SerializeField]
-    private Transform _camera; //角色摄像机
-    [SerializeField]
-    private bool isUpPoint = false;
+	private Transform _camera; //角色摄像机
+	[SerializeField]
+	private Transform _zoom; //pause screen position, stand for Ispasued
+	[SerializeField]
+	public Volume m_Volume; //G_Volume
+	[SerializeField]
+
+	private bool isUpPoint = false;
+	private bool isZoom = false;
+	private bool isOption = false;
+	private bool isWindow = false;
+	private float time = 0.1f;
+
+	DepthOfField dofComponent;
+	int PauseButtonPosition = 0;
 
 	private Transform _targetTrans
     {
         get 
-        { 
-            if (isUpPoint)
+        {
+			if (isZoom)
+			{
+				return _zoom;
+			}
+
+			if (isUpPoint && !isZoom)
             {
                 return _upPoint;
             }
+
             return _downPoint; 
         }
     }//当前目标点
@@ -41,7 +61,12 @@ public class CameraController : MonoBehaviour {
 	{
 		// Create an offset by subtracting the Camera's position from the player's position
 		offset = transform.position - player.transform.position;
-    }
+		//get depth volume for pause screen
+
+
+		m_Volume.profile.TryGet<DepthOfField>(out dofComponent);
+
+	}
 
 	// After the standard 'Update()' loop runs, and just before each frame is rendered..
 	void LateUpdate ()
@@ -56,15 +81,45 @@ public class CameraController : MonoBehaviour {
     {
 		CheckCameraUp();
 		CheckCameraRotate();
-    }
-    private void FixedUpdate()
+
+
+
+		switch (PauseButtonPosition)
+		{
+			case 0:
+				//2.68
+				dofComponent.focusDistance.value = 2.68f;
+				break;
+			case 1:
+				//2.18
+				dofComponent.focusDistance.value = 2.18f;
+				break;
+			case 2:
+				//1.89
+				dofComponent.focusDistance.value = 1.89f;
+				break;
+			case 3:
+				//1.66
+				dofComponent.focusDistance.value = 1.66f;
+
+				break;
+
+		}
+
+		_camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, moveSpeed);
+		_camera.transform.localEulerAngles = Vector3.Lerp(_camera.localEulerAngles, _targetTrans.localEulerAngles, rotateSpeed);
+
+	}
+	private void FixedUpdate()
     {
         //float distance = 1 / ((_camera.position - _targetTrans.position).magnitude);
         //_camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, distance * moveSpeed);
-        _camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, moveSpeed);
+       // _camera.position = Vector3.Lerp(_camera.position, _targetTrans.position, moveSpeed);
         //float angle = 1 / ((_camera.localEulerAngles - _targetTrans.localEulerAngles).magnitude);
         //_camera.transform.localEulerAngles = Vector3.Lerp(_camera.localEulerAngles, _targetTrans.localEulerAngles, angle * rotateSpeed);
-        _camera.transform.localEulerAngles = Vector3.Lerp(_camera.localEulerAngles, _targetTrans.localEulerAngles, rotateSpeed);
+       // _camera.transform.localEulerAngles = Vector3.Lerp(_camera.localEulerAngles, _targetTrans.localEulerAngles, rotateSpeed);
+
+
     }
 
     void CheckCameraUp()
@@ -98,5 +153,87 @@ public class CameraController : MonoBehaviour {
 		{
             cameraRotateAnim.ResetTrigger("Right");
         }
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			PauseResumeTheGame();
+		}
+
+	}
+
+	public void ButtonOption_GoOption()
+	{
+		isOption = !isOption;
+		cameraRotateAnim.SetBool("Option", isOption);
+
+		if(isOption)
+		{
+			dofComponent.focalLength.value = 128;
+		}
+		else
+		{
+			dofComponent.focalLength.value = 300;
+
+		}
+	}
+
+	public void InYesOrNoWindow()
+	{
+		isWindow = !isWindow;
+
+		if(isWindow)
+		{
+			dofComponent.focalLength.value = 1;
+
+		}
+		else
+		{
+			dofComponent.focalLength.value = 300;
+
+		}
+	}
+	private void PauseResumeTheGame()
+	{
+		isZoom = !isZoom;
+
+
+		if (isZoom)
+		{
+			Time.timeScale = 0;
+			cameraRotateAnim.SetBool("Pause", true);
+			dofComponent.focalLength.value = 300;
+
+		}
+		else if (!isZoom)
+		{
+			Time.timeScale = 1;
+			cameraRotateAnim.SetBool("Pause", false);
+			dofComponent.focalLength.value = 1;
+
+		}
+	}
+
+
+	public void ButtonResume_ResumeGame()
+	{
+		PauseResumeTheGame();
+	}
+
+
+
+	public void ButtonResume()
+	{
+		PauseButtonPosition = 0;
+	}
+	public void ButtonOption()
+	{
+		PauseButtonPosition = 1;
+	}
+	public void ButtonMenu()
+	{
+		PauseButtonPosition = 2;
+	}
+	public void ButtonQuit()
+	{
+		PauseButtonPosition = 3;
 	}
 }

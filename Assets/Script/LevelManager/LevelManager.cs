@@ -44,8 +44,13 @@ public class LevelManager : MonoBehaviour
         instance = this;
     }
 
+	void Start()
+	{
+		Application.targetFrameRate = Screen.currentResolution.refreshRate;
+	}
 
-    public void CheckRebornPoint(RebornPoint rebornPoint)
+
+	public void CheckRebornPoint(RebornPoint rebornPoint)
     {
         if (nowRebornPoint != null)
         {
