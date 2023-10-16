@@ -53,8 +53,8 @@ public class RollNumText : MonoBehaviour
 		for (int i = 0; i < numStr.Length; i++)
 		{
 			int curIdx = numStr.Length - 1 - i;
-			GameObject go = GameObject.Instantiate(GoRollNum, Vector3.zero, Quaternion.identity);
-			go.transform.parent = content;
+			GameObject go = GameObject.Instantiate(GoRollNum, Vector3.zero, Quaternion.identity, content);
+			go.transform.localEulerAngles = Vector3.zero;
 
 			GoNum gn = go.GetComponent<GoNum>();
 			gn.transform.localPosition = beginPos + new Vector3(i * offsetVertical, 0, 0);
