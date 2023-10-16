@@ -29,16 +29,26 @@ public class RollNumText : MonoBehaviour
 	{
 		string numStr = num.ToString();
 		targetNum = num;
-		float checkScale = 1;
-		for (int i = 1; i < numStr.Length; i++)
+		//float checkScale = 1;
+		//for (int i = 1; i < numStr.Length; i++)
+		//{
+		//	int idx = i;
+		//	if (idx > 2)
+		//	{
+		//		idx = 2;
+		//	}
+		//	checkScale += math.pow(slowDownScale, idx + 1);
+		//}
+
+		//destory previous children
+		int Numchild = content.childCount;
+
+		for (int i =0; i< Numchild;i++)
 		{
-			int idx = i;
-			if (idx > 2)
-			{
-				idx = 2;
-			}
-			checkScale += math.pow(slowDownScale, idx + 1);
+			Object.Destroy(content.GetChild(i).gameObject);
 		}
+
+
 
 		for (int i = 0; i < numStr.Length; i++)
 		{
