@@ -26,10 +26,10 @@ public class CameraController : MonoBehaviour {
 	public Volume m_Volume; //G_Volume
 	[SerializeField]
 
-	private bool isUpPoint = false;
-	private bool isZoom = false;
-	private bool isOption = false;
-	private bool isWindow = false;
+	public bool isUpPoint = false;
+	public bool isZoom = false;
+	public bool isOption = false;
+	public bool isWindow = false;
 	private float time = 0.1f;
 
 	DepthOfField dofComponent;
