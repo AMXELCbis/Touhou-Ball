@@ -1,6 +1,7 @@
 using RengeGames.HealthBars;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,7 +13,10 @@ public class HUD_Health : MonoBehaviour
 
 	private Vector4 FullHealthBorderColor;
 	private Vector4 NormalBorderColor;
-	private Vector4 HealthrColor;
+	private Vector4 HealthColor;
+
+	private Vector4 T_HealthColor;
+	private Vector4 T_BorderColor;
 
 	private Vector3 BarRotation;
 
@@ -24,7 +28,10 @@ public class HUD_Health : MonoBehaviour
 	{
 		FullHealthBorderColor = Healthbar.BorderColor.Value;
 		NormalBorderColor = new Vector4(20f / 255f, 20f / 255f, 20f / 255f, 1f);
-		HealthrColor = Healthbar.InnerColor.Value;
+		HealthColor = Healthbar.InnerColor.Value;
+
+		T_HealthColor = HealthColor;
+		T_BorderColor = FullHealthBorderColor;
 
 		BarRotation = Healthbar.transform.eulerAngles;
 
@@ -38,6 +45,7 @@ public class HUD_Health : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
 			player.CurrentHealth++;
+			Healthincrese();
 		}
 		if (Input.GetKeyDown(KeyCode.F2))
 		{
@@ -50,17 +58,28 @@ public class HUD_Health : MonoBehaviour
 
 	void Healthincrese()
 	{
+		if (player.CurrentHealth == player.MaxHealth)
+		{
+			T_BorderColor = FullHealthBorderColor;
+		}
+		BarRotation = Healthbar.transform.eulerAngles;
+		BarRotation.y = 359.99f;
+		Healthbar.transform.eulerAngles = BarRotation;
+		BarRotation.y = 0;
 
 	}
 
 
 	void Healthdecrase()
 	{
-		//if(player.CurrentHealth == player.MaxHealth)
+		if(player.CurrentHealth == player.MaxHealth)
 		{
-			BarRotation = Healthbar.transform.eulerAngles;
-			BarRotation.y = 360;
+			T_BorderColor = NormalBorderColor;
 		}
+		BarRotation = Healthbar.transform.eulerAngles;
+		BarRotation.y = 0.01f;
+		Healthbar.transform.eulerAngles = BarRotation;
+		BarRotation.y = 360;
 	}
 
 
@@ -73,12 +92,21 @@ public class HUD_Health : MonoBehaviour
 		ControlHealth();
 
 		Healthbar.transform.eulerAngles = Vector3.Lerp(Healthbar.transform.eulerAngles, BarRotation, R_Speed);
+		Healthbar.RemoveSegments.Value = Mathf.Lerp(Healthbar.RemoveSegments.Value, player.MaxHealth - player.CurrentHealth, R_Speed);
 
-		if(Healthbar.transform.eulerAngles.y > 359.8)
+		Healthbar.BorderColor.Value = Vector4.Lerp(Healthbar.BorderColor.Value, T_BorderColor, R_Speed);
+
+		//Fix rotation
+		if (Healthbar.transform.eulerAngles.y > 359.8 && BarRotation.y == 360)
 		{
-
 			BarRotation.y = 0;
 			Healthbar.transform.eulerAngles = BarRotation;
+		}
+		else if (Healthbar.transform.eulerAngles.y < 0.2 && BarRotation.y == 0)
+		{
+			BarRotation.y = 0;
+			Healthbar.transform.eulerAngles = BarRotation;
+
 		}
 
 
