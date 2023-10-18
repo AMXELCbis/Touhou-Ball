@@ -16,8 +16,12 @@ public class PlayerController : MonoBehaviour {
 	public float addForceScale = 1; //施加的移动力大小
 	public float nitoriScale = 1;//荷取能力影响施力参数
 
-    // Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
-    public Rigidbody rb;
+	public int CurrentHealth;// for Health bar
+	public int MaxHealth = 3;// for Health bar
+
+
+	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
+	public Rigidbody rb;
 	public LayerMask layers;
 
 	private int count;
@@ -49,6 +53,7 @@ public class PlayerController : MonoBehaviour {
 	// At the start of the game..
 	void Start ()
 	{
+		CurrentHealth = MaxHealth;
 		// Assign the Rigidbody component to our private rb variable
 		rb = GetComponent<Rigidbody>();
 		sphereCollider = GetComponent<SphereCollider>();
