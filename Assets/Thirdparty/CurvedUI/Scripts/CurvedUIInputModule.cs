@@ -167,7 +167,6 @@ public class CurvedUIInputModule : StandaloneInputModule {
     protected override void Awake()
     {
         #if !CURVEDUI_UNITY_XR
-        forceModuleActive = true;
         #endif
 
         if (!Application.isPlaying) return;

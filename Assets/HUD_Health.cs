@@ -42,16 +42,15 @@ public class HUD_Health : MonoBehaviour
 	void ControlHealth()
 	{
 
-		if (Input.GetKeyDown(KeyCode.F1))
+		if (Input.GetKeyDown(KeyCode.F1) && player.CurrentHealth<player.MaxHealth)
 		{
 			player.CurrentHealth++;
 			Healthincrese();
 		}
-		if (Input.GetKeyDown(KeyCode.F2))
+		if (Input.GetKeyDown(KeyCode.F2) && player.CurrentHealth > 0)
 		{
 			Healthdecrase();
 			player.CurrentHealth--;
-
 		}
 
 	}

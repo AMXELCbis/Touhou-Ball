@@ -30,7 +30,6 @@ public class CameraController : MonoBehaviour {
 	public bool isZoom = false;
 	public bool isOption = false;
 	public bool isWindow = false;
-	private float time = 0.1f;
 
 	DepthOfField dofComponent;
 	int PauseButtonPosition = 0;

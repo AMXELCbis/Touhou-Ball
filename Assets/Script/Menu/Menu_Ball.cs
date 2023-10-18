@@ -6,7 +6,6 @@ public class Menu_Ball : MonoBehaviour
 {
 	[SerializeField]float rotationSpeed = 100f;
 	bool dragging = false;
-	private float damp = 2;
 	Rigidbody rb;
 
 	private Quaternion defaultRotation;
