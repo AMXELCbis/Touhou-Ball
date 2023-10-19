@@ -8,7 +8,6 @@ using Michsky.MUIP;
 using System;
 using Unity.Mathematics;
 using DG.Tweening;
-using TreeEditor;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
