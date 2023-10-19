@@ -109,8 +109,8 @@ public class HUD_Loudness : MonoBehaviour
 	{
 		MoBCompent.intensity.value = myBar.currentPercent / 100f;
 
-		if (MoBCompent.intensity.value < 0.2f)
-			MoBCompent.intensity.value = 0.2f;
+		if (MoBCompent.intensity.value < 0.1f)
+			MoBCompent.intensity.value = 0.1f;
 	}
 
 	void Update()
@@ -129,8 +129,8 @@ public class HUD_Loudness : MonoBehaviour
 		}
 		else
 		{
-			if(MoBCompent.intensity.value!= 0.2f)
-				MoBCompent.intensity.value = 0.2f;
+			if(MoBCompent.intensity.value!= 0.1f)
+				MoBCompent.intensity.value = 0.1f;
 		}	
 
 		//P is 0 ~ 100
