@@ -5,11 +5,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+public enum Weather
+{
+	clear = 1,
+	wind = 2,
+	rain = 3,
+	snow = 4,
+};
+
 public class LevelManager : MonoBehaviour
 {
-    public int PlayerLife;
+	public int PlayerLife;
 
-    public static LevelManager instance;
+	//for weather system
+	public Weather weather;
+
+	public static LevelManager instance;
 
     public RebornPoint nowRebornPoint;
 
@@ -47,6 +58,8 @@ public class LevelManager : MonoBehaviour
 	void Start()
 	{
 		Application.targetFrameRate = Screen.currentResolution.refreshRate;
+
+
 	}
 
 
