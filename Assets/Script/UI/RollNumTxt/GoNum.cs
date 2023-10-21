@@ -74,7 +74,7 @@ public class GoNum : MonoBehaviour
 
 	public void test()
 	{
-		RollNum(9, 5);
+		RollNum(3, 5);
 	}
 
 	public void RollNum(int targetNum, float totalTime)
@@ -112,8 +112,16 @@ public class GoNum : MonoBehaviour
 				Debug.Log("rollTime" + rollTime);
 			}
 
-			curNum++;
-			if(curNum == 10)
+			if (isUp)
+			{
+				curNum++;
+			}
+			else
+			{
+				curNum--;
+			}
+
+			if (curNum == 10)
 			{
 				curNum = 0;
 			}
