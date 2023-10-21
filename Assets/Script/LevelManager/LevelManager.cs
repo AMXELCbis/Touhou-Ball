@@ -53,12 +53,14 @@ public class LevelManager : MonoBehaviour
     }
     void Awake()
     {
-        instance = this;
+		Time.timeScale = 1;
+		instance = this;
     }
 
 	void Start()
 	{
-		Application.targetFrameRate = Screen.currentResolution.refreshRate;
+		QualitySettings.vSyncCount = 0;
+		Application.targetFrameRate = 60;
 
 
 	}

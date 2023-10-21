@@ -11,6 +11,8 @@ public class PlayerLife : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI Text;
 	[SerializeField] private GameObject Max;
 	[SerializeField] private GameObject Last;
+	[SerializeField] private GameObject Temp_Restart;
+
 
 	[SerializeField] private float R_Speed;
 	private Vector3 P_Rotation;
@@ -119,6 +121,14 @@ public class PlayerLife : MonoBehaviour
 
 	}
 
+	void Temp_CheckRestart()
+	{
+		if (LevelManager.instance.PlayerLife == 0)
+		{
+			Time.timeScale = 0;
+			Temp_Restart.SetActive(true);
+		}
+	}
 
 	void Update()
     {
@@ -129,6 +139,8 @@ public class PlayerLife : MonoBehaviour
 
 		FixRotation();
 		ChangeText();
+
+		Temp_CheckRestart();
 
 
 		//if (PlayerLifeText != null)
