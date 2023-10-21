@@ -19,7 +19,6 @@ public class HUD_Loudness : MonoBehaviour
 	public UnityEngine.UI.Image Background;
 	public UnityEngine.UI.Image Bar;
 	public SpriteRenderer Speaker;
-	public GameObject ObjectSpeaker;
 	[SerializeField] private Michsky.MUIP.ProgressBar myBar;
 	[SerializeField] private Rigidbody player;
 	[SerializeField] private PlayerController Controller;
@@ -32,6 +31,8 @@ public class HUD_Loudness : MonoBehaviour
 	private float A_InitBar;
 
 	MotionBlur MoBCompent;
+	[SerializeField] public float InitMoB;
+
 
 	private Vector3 P_Speaker;
 
@@ -106,10 +107,10 @@ public class HUD_Loudness : MonoBehaviour
 
 	void checkMontionBlur()
 	{
-		MoBCompent.intensity.value = myBar.currentPercent / 100f;
+		MoBCompent.intensity.value = (myBar.currentPercent / 100f)/2;
 
-		if (MoBCompent.intensity.value < 0.1f)
-			MoBCompent.intensity.value = 0.1f;
+		if (MoBCompent.intensity.value < InitMoB)
+			MoBCompent.intensity.value = InitMoB;
 	}
 
 	void Update()
@@ -128,8 +129,8 @@ public class HUD_Loudness : MonoBehaviour
 		}
 		else
 		{
-			if(MoBCompent.intensity.value!= 0.1f)
-				MoBCompent.intensity.value = 0.1f;
+			if(MoBCompent.intensity.value!= InitMoB)
+				MoBCompent.intensity.value = InitMoB;
 		}	
 
 		//P is 0 ~ 100

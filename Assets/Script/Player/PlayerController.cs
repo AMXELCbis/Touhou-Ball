@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
 	public float addForceScale = 1; //施加的移动力大小
 	public float nitoriScale = 1;//荷取能力影响施力参数
 
+	public PlayerLife playerlife;
+
 	public int CurrentHealth;// for Health bar
 	public int MaxHealth = 3;// for Health bar
 
@@ -207,8 +209,9 @@ public class PlayerController : MonoBehaviour {
 		rb.isKinematic = true;
 		checkRebornOnGround = false;
 
-		//decrease life number
-		LevelManager.instance.PlayerLife--;
+		//decrease life number, work with HUD
+		playerlife.DecreaseNum();
+
 		rebornFX.SetActive(true);
 		StartCoroutine(closeRebornFx());
 	}

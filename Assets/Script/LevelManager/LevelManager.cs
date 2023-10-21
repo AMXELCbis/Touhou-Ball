@@ -16,6 +16,7 @@ public enum Weather
 public class LevelManager : MonoBehaviour
 {
 	public int PlayerLife;
+	public int MaxPlayerLife;
 
 	//for weather system
 	public Weather weather;
@@ -82,7 +83,7 @@ public class LevelManager : MonoBehaviour
 
     public void Reborn(PlayerController ctrller)
     {
-        switch (nowRebornPoint.rebornType)
+		switch (nowRebornPoint.rebornType)
         {
             case RebornType.Normal:
                 ctrller.ReBorn(nowRebornPoint.bornPosition);
