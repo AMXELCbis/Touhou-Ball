@@ -24,7 +24,7 @@ public class HUD_Health : MonoBehaviour
 
 
 	Bloom BloomCompent;
-	private float BloomIntensity;
+	[SerializeField] private float BloomIntensity;
 
 	Vignette VignetteCompent;
 	private float VignetteIntensity;
@@ -68,7 +68,6 @@ public class HUD_Health : MonoBehaviour
 		BarRotation = Healthbar.transform.eulerAngles;
 
 		m_Volume.profile.TryGet<Bloom>(out BloomCompent);
-		BloomIntensity = 5f;
 		m_Volume.profile.TryGet<Vignette>(out VignetteCompent);
 		VignetteIntensity = 0;
 

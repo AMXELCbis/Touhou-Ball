@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour {
 	public int CurrentHealth;// for Health bar
 	public int MaxHealth = 3;// for Health bar
 
+	public CameraController cameraController;
+	private Vector3 CurMousePos;
+	private Vector3 MarkedMousePos;
+	public float MouseRange;
 
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	public Rigidbody rb;
@@ -126,6 +130,46 @@ public class PlayerController : MonoBehaviour {
 		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
+		
+		//Temp camera movement type
+		if(cameraController.isUpPoint)
+		{
+
+
+			if (Input.GetMouseButtonDown(0))
+			{
+				MarkedMousePos = Input.mousePosition;
+			}
+			if (Input.GetMouseButton(0))
+			{
+				CurMousePos = Input.mousePosition;
+
+				Vector3 T_MousePos = CurMousePos - MarkedMousePos;
+
+				if (T_MousePos.x > MouseRange)
+					T_MousePos.x = MouseRange;
+				if (T_MousePos.y > MouseRange)
+					T_MousePos.y = MouseRange;
+
+				T_MousePos /= MouseRange;
+
+				moveHorizontal = T_MousePos.x;
+				moveVertical = T_MousePos.y;
+
+			}
+
+			if (Input.GetMouseButtonUp(0))
+			{
+				CurMousePos = Input.mousePosition;
+
+			}
+
+		}
+
+
+
+		if (moveHorizontal >= 1)
+			moveHorizontal = moveHorizontal + 0.01f;
 		Rigidbody rb = GetComponent<Rigidbody>();
 		Vector3 currentSpeed = rb.velocity;
 		//int addForce = 1;
