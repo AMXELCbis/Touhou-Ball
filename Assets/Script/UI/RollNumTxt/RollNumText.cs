@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -8,21 +8,22 @@ public class RollNumText : MonoBehaviour
 {
 	public GameObject GoRollNum;
 	public Transform content;
-	[Header("½áÎ²×Ö·ûÎ»ÖÃ")]
+	[Header("ç»“å°¾å­—ç¬¦ä½ç½®")]
 	public Vector3 beginPos = new Vector3 (101f, -5f, 0f);
-	[Header("×Ö·û¼ä¸ô")]
+	[Header("å­—ç¬¦é—´éš”")]
 	public float offsetVertical = -37;
-	[Header("×Ü¹²¹ö¶¯Ê±¼ä")]
+	[Header("æ€»å…±æ»šåŠ¨æ—¶é—´")]
 	public float totalTime = 2;
-	[Header("Ã¿¸ñ½µËÙ²ÎÊı")]
+	[Header("æ¯æ ¼é™é€Ÿå‚æ•°")]
 	public float slowDownScale = 1.02f;
 	int targetNum;
+	public int curTextIdx;
 
-	public List<Transform> targets = new List<Transform>();
+	public List<GoNum> targets = new List<GoNum>();
 
 
 	/// <summary>
-	/// µ÷ÓÃ¿ªÆô¹ö¶¯
+	/// è°ƒç”¨å¼€å¯æ»šåŠ¨
 	/// </summary>
 	/// <param name="num"></param>
 	public void StartRollNum(int num)
@@ -40,8 +41,10 @@ public class RollNumText : MonoBehaviour
 			checkScale += math.pow(slowDownScale, idx + 1);
 		}
 
-		for (int i = 0; i < numStr.Length; i++)
+		//for (int i = 0; i < numStr.Length; i++)
+		for (int i = 0; i < 1; i++)
 		{
+			curTextIdx = i;
 			int curIdx = numStr.Length - 1 - i;
 			GameObject go = GameObject.Instantiate(GoRollNum, Vector3.zero, Quaternion.identity);
 			go.transform.parent = content;
@@ -50,7 +53,7 @@ public class RollNumText : MonoBehaviour
 			gn.transform.localPosition = beginPos + new Vector3(i * offsetVertical, 0, 0);
 			Debug.Log("curIdx  " + curIdx + " " + i + " " + gn.transform.localPosition + " " + numStr[curIdx]);
 
-			targets.Add(gn.transform);
+			targets.Add(gn);
 			int idx = i;
 			if (idx > 2)
 			{
@@ -61,5 +64,10 @@ public class RollNumText : MonoBehaviour
 			gn.SetBeginNum(0, 0, curIdx);
 			gn.RollNum(int.Parse(numStr[curIdx] + ""), totalTime);
 		}
+	}
+
+	public void StartNewNum()
+	{
+		
 	}
 }
