@@ -34,6 +34,9 @@ public class TimerText : MonoBehaviour
 			GameObject go = GameObject.Instantiate(GoRollNum, Vector3.zero, Quaternion.identity);
 			go.transform.parent = content;
 			go.transform.localScale = Vector3.one;
+
+			go.transform.localEulerAngles = Vector3.zero;
+
 			TimerGoNum gn = go.GetComponent<TimerGoNum>();
 			gn.transform.localPosition = beginPos;
 			int strIdx = numStr.Length - i - 1;
@@ -89,6 +92,10 @@ public class TimerText : MonoBehaviour
 			GameObject go = GameObject.Instantiate(GoRollNum, Vector3.zero, Quaternion.identity);
 			go.transform.parent = content;
 			go.transform.localScale = Vector3.one;
+
+			go.transform.localEulerAngles = Vector3.zero;
+
+
 			TimerGoNum gn = go.GetComponent<TimerGoNum>();
 			gn.transform.localPosition = beginPos;
 			targets.Add(gn);

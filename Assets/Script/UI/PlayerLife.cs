@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PlayerLife : MonoBehaviour
 {
@@ -12,6 +14,14 @@ public class PlayerLife : MonoBehaviour
 	[SerializeField] private GameObject Max;
 	[SerializeField] private GameObject Last;
 	[SerializeField] private GameObject Temp_Restart;
+	[SerializeField] private UnityEngine.UI.Image Background;
+
+	[SerializeField] private Color Background_Green;
+	[SerializeField] private Color Background_Normal;
+	[SerializeField] private Color Background_Red;
+
+	private Color T_Color;
+	[SerializeField] private float C_Speed;
 
 
 	[SerializeField] private float R_Speed;
@@ -24,6 +34,8 @@ public class PlayerLife : MonoBehaviour
 		Text.text = LevelManager.instance.PlayerLife.ToString();
 
 		P_Rotation = Rotation_Point.transform.localEulerAngles;
+
+		T_Color = Background_Green;
 
 	}
 
@@ -130,12 +142,28 @@ public class PlayerLife : MonoBehaviour
 		}
 	}
 
+	void ChangeBackgroundColor()
+	{
+		if (LevelManager.instance.PlayerLife == LevelManager.instance.MaxPlayerLife)
+			T_Color = Background_Green;
+		else if (LevelManager.instance.PlayerLife == 1)
+			T_Color = Background_Red;
+		else
+			T_Color = Background_Normal;
+
+	}
+
 	void Update()
     {
 		ChangeLifeNum();
+		ChangeBackgroundColor();
+
 
 		//Lerp to rotate the Num using Rotation Point
 		Rotation_Point.transform.localEulerAngles = Vector3.Lerp(Rotation_Point.transform.localEulerAngles, P_Rotation, R_Speed);
+
+		//Lerp to change background color based on the cur life NUM
+		Background.color = Vector4.Lerp(Background.color, T_Color, C_Speed);
 
 		FixRotation();
 		ChangeText();
