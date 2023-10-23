@@ -10,6 +10,7 @@ public class HUD_Weather : MonoBehaviour
 	[SerializeField] private LevelManager levelManager;
 
 	[SerializeField] private Image Background;
+	[SerializeField] private Image InnerBackground;
 	[SerializeField] private Color ClearColor;
 	[SerializeField] private Color WindColor;
 	[SerializeField] private Color RainColor;
@@ -114,7 +115,7 @@ public class HUD_Weather : MonoBehaviour
 
 		//Background color changing
 		Background.color = Vector4.Lerp(Background.color, T_Color, C_Speed);
-
+		InnerBackground.color = Vector4.Lerp(Background.color, T_Color, C_Speed);
 		//resize the dial
 		Dail.transform.localScale = Vector3.Lerp(Dail.transform.localScale, T_DialScale, S_Speed);
 
