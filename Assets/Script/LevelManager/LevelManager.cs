@@ -5,11 +5,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+public enum Weather
+{
+	clear = 1,
+	wind = 2,
+	rain = 3,
+	snow = 4,
+};
+
 public class LevelManager : MonoBehaviour
 {
-    public int PlayerLife;
+	public int PlayerLife;
+	public int MaxPlayerLife;
 
-    public static LevelManager instance;
+	//for weather system
+	public Weather weather;
+
+	public static LevelManager instance;
 
     public RebornPoint nowRebornPoint;
 
@@ -41,12 +53,16 @@ public class LevelManager : MonoBehaviour
     }
     void Awake()
     {
-        instance = this;
+		Time.timeScale = 1;
+		instance = this;
     }
 
 	void Start()
 	{
-		Application.targetFrameRate = Screen.currentResolution.refreshRate;
+		QualitySettings.vSyncCount = 0;
+		Application.targetFrameRate = 60;
+
+
 	}
 
 
@@ -69,7 +85,7 @@ public class LevelManager : MonoBehaviour
 
     public void Reborn(PlayerController ctrller)
     {
-        switch (nowRebornPoint.rebornType)
+		switch (nowRebornPoint.rebornType)
         {
             case RebornType.Normal:
                 ctrller.ReBorn(nowRebornPoint.bornPosition);

@@ -16,8 +16,18 @@ public class PlayerController : MonoBehaviour {
 	public float addForceScale = 1; //施加的移动力大小
 	public float nitoriScale = 1;//荷取能力影响施力参数
 
-    // Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
-    public Rigidbody rb;
+	public PlayerLife playerlife;
+
+	public int CurrentHealth;// for Health bar
+	public int MaxHealth = 3;// for Health bar
+
+	public CameraController cameraController;
+	private Vector3 CurMousePos;
+	private Vector3 MarkedMousePos;
+	public float MouseRange;
+
+	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
+	public Rigidbody rb;
 	public LayerMask layers;
 
 	private int count;
@@ -49,6 +59,7 @@ public class PlayerController : MonoBehaviour {
 	// At the start of the game..
 	void Start ()
 	{
+		CurrentHealth = MaxHealth;
 		// Assign the Rigidbody component to our private rb variable
 		rb = GetComponent<Rigidbody>();
 		sphereCollider = GetComponent<SphereCollider>();
@@ -119,6 +130,46 @@ public class PlayerController : MonoBehaviour {
 		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
+		
+		//Temp camera movement type
+		if(cameraController.isUpPoint)
+		{
+
+
+			if (Input.GetMouseButtonDown(0))
+			{
+				MarkedMousePos = Input.mousePosition;
+			}
+			if (Input.GetMouseButton(0))
+			{
+				CurMousePos = Input.mousePosition;
+
+				Vector3 T_MousePos = CurMousePos - MarkedMousePos;
+
+				if (T_MousePos.x > MouseRange)
+					T_MousePos.x = MouseRange;
+				if (T_MousePos.y > MouseRange)
+					T_MousePos.y = MouseRange;
+
+				T_MousePos /= MouseRange;
+
+				moveHorizontal = T_MousePos.x;
+				moveVertical = T_MousePos.y;
+
+			}
+
+			if (Input.GetMouseButtonUp(0))
+			{
+				CurMousePos = Input.mousePosition;
+
+			}
+
+		}
+
+
+
+		if (moveHorizontal >= 1)
+			moveHorizontal = moveHorizontal + 0.01f;
 		Rigidbody rb = GetComponent<Rigidbody>();
 		Vector3 currentSpeed = rb.velocity;
 		//int addForce = 1;
@@ -202,8 +253,9 @@ public class PlayerController : MonoBehaviour {
 		rb.isKinematic = true;
 		checkRebornOnGround = false;
 
-		//decrease life number
-		LevelManager.instance.PlayerLife--;
+		//decrease life number, work with HUD
+		playerlife.DecreaseNum();
+
 		rebornFX.SetActive(true);
 		StartCoroutine(closeRebornFx());
 	}
