@@ -7,6 +7,9 @@ using UnityEngine.UIElements;
 
 public class PlayerLife : MonoBehaviour
 {
+	[SerializeField] private HUD_Timer HUD_timer;
+
+
 	[SerializeField] private GameObject Rotation_Point;
 	[SerializeField] private LevelManager levelManager;
 	[SerializeField] private Animator AnimatorNum;
@@ -133,9 +136,9 @@ public class PlayerLife : MonoBehaviour
 
 	}
 
-	void Temp_CheckRestart()
+	public void Temp_CheckRestart()
 	{
-		if (LevelManager.instance.PlayerLife == 0)
+		if (LevelManager.instance.PlayerLife == 0 || HUD_timer.isTimeOver)
 		{
 			Time.timeScale = 0;
 			Temp_Restart.SetActive(true);
