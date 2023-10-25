@@ -123,7 +123,9 @@ public class HUD_Timer : MonoBehaviour
 	void StartRotate()
 	{
 		if (Sec < 10 && Sec >= 0 && !isTimeOver)
+		{
 			Right_Rotation.z += 120f;
+		}
 		else if (Sec == 59)
 		{
 			//not rotation, just to disable the left fake num
@@ -171,12 +173,12 @@ public class HUD_Timer : MonoBehaviour
 		Left.transform.localEulerAngles = Vector3.Lerp(Left.transform.localEulerAngles, Left_Rotation, R_Speed);
 		Right.transform.localEulerAngles = Vector3.Lerp(Right.transform.localEulerAngles, Right_Rotation, R_Speed);
 
-		if (Left.transform.localEulerAngles.z > 359.99 && Left_Rotation.z == 360)
+		if (Left.transform.localEulerAngles.z > 359)
 		{
 			Left_Rotation.z = 0;
 			Left.transform.localEulerAngles = Left_Rotation;
 		}
-		if (Right.transform.localEulerAngles.z > 359.99 && Right_Rotation.z == 360)
+		if (Right.transform.localEulerAngles.z > 359)
 		{
 			Right_Rotation.z = 0;
 			Right.transform.localEulerAngles = Right_Rotation;
