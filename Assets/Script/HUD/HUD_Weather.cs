@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HUD_Weather : MonoBehaviour
 {
+	[SerializeField] private GameObject Scale_Rotate_Point;
 	[SerializeField] private GameObject Rotate_Point;
 	[SerializeField] private GameObject Dail;
 	[SerializeField] private LevelManager levelManager;
@@ -27,6 +28,7 @@ public class HUD_Weather : MonoBehaviour
 
 
 	private Vector3 P_Rotation;
+	private Vector3 P_ScaleRotation;
 
 	[SerializeField]
 	private float R_Speed = 0.05f;
@@ -35,6 +37,7 @@ public class HUD_Weather : MonoBehaviour
 	void Start()
     {
 		P_Rotation = Rotate_Point.transform.localEulerAngles;
+		P_ScaleRotation = Scale_Rotate_Point.transform.localEulerAngles;
 
 		OriginalDialScale = Dail.transform.localScale;
 		T_DialScale = OriginalDialScale;
@@ -48,12 +51,14 @@ public class HUD_Weather : MonoBehaviour
 		{
 			levelManager.weather = Weather.clear;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
+			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
 
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
 			levelManager.weather = Weather.wind;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
+			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
 
 
 		}
@@ -61,6 +66,8 @@ public class HUD_Weather : MonoBehaviour
 		{
 			levelManager.weather = Weather.rain;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
+			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
+
 
 
 		}
@@ -68,6 +75,8 @@ public class HUD_Weather : MonoBehaviour
 		{
 			levelManager.weather = Weather.snow;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
+			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
+
 
 
 		}
@@ -75,7 +84,13 @@ public class HUD_Weather : MonoBehaviour
 
 	void CheakWeather()
 	{
-		switch(levelManager.weather)
+		//give me a same switch function as below but also set the P_ScaleRotation.z as it set P_Rotation.z
+
+		//function below is to set the P_Rotation.z
+
+
+
+		switch (levelManager.weather)
 		{
 			case Weather.clear:
 				T_Color = ClearColor;
@@ -113,17 +128,31 @@ public class HUD_Weather : MonoBehaviour
 		//rotate the point
 		Rotate_Point.transform.localEulerAngles = Vector3.Lerp(Rotate_Point.transform.localEulerAngles, P_Rotation, R_Speed);
 
+		Vector3 temp = P_ScaleRotation;
+		temp.z = P_Rotation.z;
+
+		Scale_Rotate_Point.transform.localEulerAngles = Vector3.Lerp(Scale_Rotate_Point.transform.localEulerAngles, temp, R_Speed);
+
+
 		//Background color changing
 		Background.color = Vector4.Lerp(Background.color, T_Color, C_Speed);
 		InnerBackground.color = Vector4.Lerp(Background.color, T_Color, C_Speed);
 		//resize the dial
 		Dail.transform.localScale = Vector3.Lerp(Dail.transform.localScale, T_DialScale, S_Speed);
+		Scale_Rotate_Point.transform.localScale = Vector3.Lerp(Scale_Rotate_Point.transform.localScale, T_DialScale, S_Speed);
 
 		//Fix rotation
 		if (Rotate_Point.transform.localEulerAngles.z > 359.999 && P_Rotation.z == 360)
 		{
 			P_Rotation.z = 0;
 			Rotate_Point.transform.localEulerAngles = P_Rotation;
+		}
+
+		//same function above but use Scale_Rotate_Point
+		if (Scale_Rotate_Point.transform.localEulerAngles.z > 359.999 && P_Rotation.z == 360)
+		{
+			P_Rotation.z = 0;
+			Scale_Rotate_Point.transform.localEulerAngles = P_Rotation;
 		}
 
 	}
