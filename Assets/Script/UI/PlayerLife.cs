@@ -9,7 +9,7 @@ public class PlayerLife : MonoBehaviour
 {
 	[SerializeField] private HUD_Timer HUD_timer;
 
-
+	[SerializeField] private GameObject Inner_Background;
 	[SerializeField] private GameObject Rotation_Point;
 	[SerializeField] private LevelManager levelManager;
 	[SerializeField] private Animator AnimatorNum;
@@ -29,6 +29,7 @@ public class PlayerLife : MonoBehaviour
 
 	[SerializeField] private float R_Speed;
 	private Vector3 P_Rotation;
+	private Vector3 P_InnerRotation;
 	private bool ClockwiseRotate = true;
 
 
@@ -37,6 +38,7 @@ public class PlayerLife : MonoBehaviour
 		Text.text = LevelManager.instance.PlayerLife.ToString();
 
 		P_Rotation = Rotation_Point.transform.localEulerAngles;
+		P_InnerRotation = Inner_Background.transform.localEulerAngles;
 
 		T_Color = Background_Green;
 
@@ -61,6 +63,9 @@ public class PlayerLife : MonoBehaviour
 
 		P_Rotation.z = (float)359.99;
 		Rotation_Point.transform.localEulerAngles = P_Rotation;
+
+		P_InnerRotation.z = P_Rotation.z;
+		Inner_Background.transform.localEulerAngles = P_InnerRotation;
 		P_Rotation.z = 0;
 	}
 
@@ -90,6 +95,9 @@ public class PlayerLife : MonoBehaviour
 			{
 				P_Rotation.z = 0;
 				Rotation_Point.transform.localEulerAngles = P_Rotation;
+
+				P_InnerRotation.z = P_Rotation.z;
+				Inner_Background.transform.localEulerAngles = P_InnerRotation;
 			}
 
 		}
@@ -99,6 +107,10 @@ public class PlayerLife : MonoBehaviour
 			{
 				P_Rotation.z = 0;
 				Rotation_Point.transform.localEulerAngles = P_Rotation;
+
+				P_InnerRotation.z = P_Rotation.z;
+				Inner_Background.transform.localEulerAngles = P_InnerRotation;
+
 			}
 
 
@@ -164,6 +176,11 @@ public class PlayerLife : MonoBehaviour
 
 		//Lerp to rotate the Num using Rotation Point
 		Rotation_Point.transform.localEulerAngles = Vector3.Lerp(Rotation_Point.transform.localEulerAngles, P_Rotation, R_Speed);
+
+		Vector3 temp = P_Rotation;
+		temp.y = P_InnerRotation.y;
+
+		Inner_Background.transform.localEulerAngles = Vector3.Lerp(Inner_Background.transform.localEulerAngles, temp, R_Speed);
 
 		//Lerp to change background color based on the cur life NUM
 		Background.color = Vector4.Lerp(Background.color, T_Color, C_Speed);

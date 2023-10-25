@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
 
 public class HUD_Timer : MonoBehaviour
 {
@@ -30,6 +31,12 @@ public class HUD_Timer : MonoBehaviour
 	[SerializeField] private GameObject Fake_R240;
 
 	[SerializeField] private PlayerLife playerLife;
+
+	[SerializeField] private Color White;
+	[SerializeField] private Color Red;
+	[SerializeField] private float C_Speed;
+	private Color T_Color;
+
 
 	public bool isTimeOver = false;
 
@@ -149,6 +156,8 @@ public class HUD_Timer : MonoBehaviour
 		OrginalP_Viewpoint = Viewpoint.transform.localPosition;
 		Left_Rotation = Left.transform.localEulerAngles;
 		Right_Rotation = Right.transform.localEulerAngles;
+
+		T_Color = White;
 	}
 	
 	void ChangeTimer()
@@ -187,6 +196,43 @@ public class HUD_Timer : MonoBehaviour
 
 	}
 
+	void ChangeTextColor()
+	{
+		if (Min == 0)
+		{
+			//get Left Image component
+			Image Left_Image = Left.GetComponent<Image>();
+			T_Color = Red;
+
+			//Left_Image.color = Red;
+
+			if (Sec < 30)
+			{
+				// same two line as above, but use Right
+				Image Right_Image = Right.GetComponent<Image>();
+				T_Color = Red;
+
+				//Right_Image.color = Red;
+			}
+
+			if (Left_Image.color != T_Color)
+				//lerp Left_Image.color to T_Color but leave the alpha as 1
+				Left_Image.color = Color.Lerp(Left_Image.color, T_Color, C_Speed);
+			else
+			{
+				//Color temp = Left_Image.color;
+
+			}
+
+
+		}
+
+
+		//lerp Left_Image.color to T_Color but leave the alpha as 1
+
+
+	}
+
 	void Update()
     {
 		ChangeTimer();
@@ -196,10 +242,9 @@ public class HUD_Timer : MonoBehaviour
 		{
 			Sec_Text.StartRoll((int)Sec);
 		}
-		else
-		{
 
-		}
+		ChangeTextColor();
+
 
 	}
 }
