@@ -32,7 +32,9 @@ public class HUD_Timer : MonoBehaviour
 
 	[SerializeField] private PlayerLife playerLife;
 
-	[SerializeField] private Color White;
+	private bool isShine_Left;
+	private bool isShine_Right;
+	[SerializeField] private Color Light_Red;
 	[SerializeField] private Color Red;
 	[SerializeField] private float C_Speed;
 	private Color T_Color;
@@ -151,13 +153,16 @@ public class HUD_Timer : MonoBehaviour
 		InvokeRepeating("Timer", .01f, 1.0f);
 		InvokeRepeating("StartRotate", .01f, 1.0f);
 
+		isShine_Left = false;
+		isShine_Right = false;
+
 		Fake_Min_Num.text = Min.ToString();
 
 		OrginalP_Viewpoint = Viewpoint.transform.localPosition;
 		Left_Rotation = Left.transform.localEulerAngles;
 		Right_Rotation = Right.transform.localEulerAngles;
 
-		T_Color = White;
+		T_Color = Red;
 	}
 	
 	void ChangeTimer()
@@ -202,27 +207,74 @@ public class HUD_Timer : MonoBehaviour
 		{
 			//get Left Image component
 			Image Left_Image = Left.GetComponent<Image>();
-			T_Color = Red;
+			Image Right_Image = Right.GetComponent<Image>();
 
-			//Left_Image.color = Red;
 
 			if (Sec < 30)
 			{
-				// same two line as above, but use Right
-				Image Right_Image = Right.GetComponent<Image>();
-				T_Color = Red;
+				if (Right_Image.color.a != T_Color.a && isShine_Right == false)
+				{
+					T_Color = Red;
+					isShine_Right = false;
+				}
+				else if (Right_Image.color.a == T_Color.a)
+				{
+					T_Color = Light_Red;
+					isShine_Right = true;
 
-				//Right_Image.color = Red;
+				}
+
+				Right_Image.color = Color.Lerp(Right_Image.color, T_Color, C_Speed * 3);
+
+				//Fix color lerp
+				if (Right_Image.color.a > 0.99 && isShine_Right == false)
+				{
+					Color temp = Right_Image.color;
+					temp.a = 1;
+					Right_Image.color = temp;
+				}
+
+				if (Right_Image.color.a < 0.205 && isShine_Right == true)
+				{
+					Right_Image.color = T_Color;
+					isShine_Right = false;
+					T_Color = Red;
+				}
+
+
 			}
 
-			if (Left_Image.color != T_Color)
-				//lerp Left_Image.color to T_Color but leave the alpha as 1
-				Left_Image.color = Color.Lerp(Left_Image.color, T_Color, C_Speed);
-			else
+			if (Left_Image.color.a != T_Color.a && isShine_Left == false)
 			{
-				//Color temp = Left_Image.color;
+				T_Color = Red;
+				isShine_Left = false;
+			}
+			else if (Left_Image.color.a == T_Color.a)
+			{
+				T_Color = Light_Red;
+				isShine_Left = true;
 
 			}
+
+			Left_Image.color = Color.Lerp(Left_Image.color, T_Color, C_Speed*3);
+
+			//Fix color lerp
+			if (Left_Image.color.a > 0.99 && isShine_Left == false)
+			{
+				Color temp = Left_Image.color;
+				temp.a = 1;
+				Left_Image.color = temp;
+			}
+
+			if (Left_Image.color.a < 0.205 && isShine_Left == true)
+			{
+				Left_Image.color = T_Color;
+				isShine_Left = false;
+				T_Color = Red;
+			}
+
+
+
 
 
 		}
