@@ -15,7 +15,6 @@ public class PlayerLife : MonoBehaviour
 	[SerializeField] private Animator AnimatorNum;
 	[SerializeField] private TextMeshProUGUI Text;
 	[SerializeField] private GameObject Max;
-	[SerializeField] private GameObject Last;
 	[SerializeField] private GameObject Temp_Restart;
 	[SerializeField] private UnityEngine.UI.Image Background;
 
@@ -128,19 +127,6 @@ public class PlayerLife : MonoBehaviour
 			else
 				Max.SetActive(false);
 
-
-
-			if (LevelManager.instance.PlayerLife == 1)
-			{
-				Last.SetActive(true);
-				AnimatorNum.SetBool("Low", true);
-			}
-			else
-			{
-				Last.SetActive(false);
-				AnimatorNum.SetBool("Low", false);
-
-			}
 
 
 

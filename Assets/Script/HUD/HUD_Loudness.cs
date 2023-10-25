@@ -14,7 +14,8 @@ using UnityEngine.Rendering.Universal;
 
 public class HUD_Loudness : MonoBehaviour
 {
-	// Start is called before the first frame update
+	[SerializeField] private GameObject Radial;
+
 	public CameraController cameraController;
 	public UnityEngine.UI.Image Background;
 	public UnityEngine.UI.Image Bar;
@@ -41,8 +42,13 @@ public class HUD_Loudness : MonoBehaviour
 	private float MaxSpeed = 0;
 	private float CurrentSpeed = 0;
 
+	private Vector3 Radial_Scale;
+
+
 	void Start()
 	{
+		Radial_Scale = Radial.transform.localScale;
+
 		MaxSpeed = Controller.maxSpeed;
 		A_Speaker = 0.8f;
 		A_Background = (float)15 / 255;
@@ -113,9 +119,18 @@ public class HUD_Loudness : MonoBehaviour
 			MoBCompent.intensity.value = InitMoB;
 	}
 
+
+	void ChangeScale()
+	{
+
+	}
+
 	void Update()
 	{
 		checkA();
+
+		ChangeScale();
+		//Radial.transform.localScale = Vector3.Lerp(Radial.transform.localScale, Radial_Scale, A_Speed);
 
 		CurrentSpeed = player.velocity.magnitude;
 
