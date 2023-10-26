@@ -31,6 +31,21 @@ public class PlayerLife : MonoBehaviour
 	private Vector3 P_InnerRotation;
 	private bool ClockwiseRotate = true;
 
+	[SerializeField] private AudioClip TempGameover;
+	[SerializeField] private AudioClip Revive;
+	[SerializeField] private AudioClip AddLifeNum;
+	[SerializeField] private AudioClip AddLifeNum_Max;
+	[SerializeField] private AudioSource audiosource;
+
+	//same function as Specal_PlayReviveSFX() but use TempGameover
+	public void Specal_PlayTempGameoverSFX()
+	{
+		audiosource.PlayOneShot(TempGameover);
+	}
+	public void Specal_PlayReviveSFX()
+	{
+		audiosource.PlayOneShot(Revive);
+	}
 
 	void Start()
     {
@@ -77,6 +92,9 @@ public class PlayerLife : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Keypad1) && Cur_LifeNum < MaxLifeNum && Rotation_Point.transform.localEulerAngles.z ==0)
 		{
 			IncreaseNum();
+			audiosource.PlayOneShot(AddLifeNum);
+			if (LevelManager.instance.PlayerLife == MaxLifeNum)
+				audiosource.PlayOneShot(AddLifeNum_Max);
 		}
 		//decrese
 		else if (Input.GetKeyDown(KeyCode.Keypad2) && Cur_LifeNum > 0 && Rotation_Point.transform.localEulerAngles.z == 0)

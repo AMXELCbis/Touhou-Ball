@@ -33,6 +33,10 @@ public class HUD_Weather : MonoBehaviour
 	[SerializeField]
 	private float R_Speed = 0.05f;
 
+	[SerializeField] private List<AudioClip> WeatherSFX;
+	[SerializeField] private AudioSource audiosource;
+
+
 
 	void Start()
     {
@@ -52,6 +56,7 @@ public class HUD_Weather : MonoBehaviour
 			levelManager.weather = Weather.clear;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
 			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
+			audiosource.PlayOneShot(WeatherSFX[0]);
 
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -59,7 +64,7 @@ public class HUD_Weather : MonoBehaviour
 			levelManager.weather = Weather.wind;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
 			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
-
+			audiosource.PlayOneShot(WeatherSFX[1]);
 
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -67,8 +72,7 @@ public class HUD_Weather : MonoBehaviour
 			levelManager.weather = Weather.rain;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
 			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
-
-
+			audiosource.PlayOneShot(WeatherSFX[2]);
 
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -76,8 +80,7 @@ public class HUD_Weather : MonoBehaviour
 			levelManager.weather = Weather.snow;
 			Dail.transform.localScale = OriginalDialScale * ScaleSize;
 			Scale_Rotate_Point.transform.localScale = OriginalDialScale * ScaleSize;
-
-
+			audiosource.PlayOneShot(WeatherSFX[3]);
 
 		}
 	}

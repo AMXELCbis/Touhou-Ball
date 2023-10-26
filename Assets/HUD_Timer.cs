@@ -46,6 +46,12 @@ public class HUD_Timer : MonoBehaviour
 
 	[SerializeField] private float R_Speed;
 
+	[SerializeField] private AudioClip EchoSFX;
+	[SerializeField] private AudioClip TickSFX;
+	[SerializeField] private AudioClip DingSFX;
+	[SerializeField] private AudioSource audiosource;
+
+
 
 	// Start is called before the first frame update
 	void setFake_R0Text()
@@ -72,6 +78,8 @@ public class HUD_Timer : MonoBehaviour
 		Sec--;
 		if (Sec < 0)
 		{
+			audiosource.PlayOneShot(DingSFX);
+			audiosource.PlayOneShot(EchoSFX);
 			if (Min > 0)
 				Sec = 59;
 			else //Time over
@@ -87,6 +95,7 @@ public class HUD_Timer : MonoBehaviour
 
 		if(Sec < 10)
 		{
+			audiosource.PlayOneShot(TickSFX);
 
 			// invoke function "setFakeNumText" delay 0.1f
 			Invoke("setFake_R0Text", 0.1f);

@@ -246,18 +246,29 @@ public class PlayerController : MonoBehaviour {
 
 	public void ReBorn(Vector3 rebornPoint)
 	{
-		Vector3 rebornPos = rebornPoint;
-		rebornPos.y += sphereCollider.radius;
-		transform.position = rebornPos;
-		rb.velocity = Vector3.zero; //重置原有速度
-		rb.isKinematic = true;
-		checkRebornOnGround = false;
-
+		//same temp gameover SFX here
 		//decrease life number, work with HUD
 		playerlife.DecreaseNum();
 
-		rebornFX.SetActive(true);
-		StartCoroutine(closeRebornFx());
+		if (LevelManager.instance.PlayerLife != 0)
+		{
+
+			Vector3 rebornPos = rebornPoint;
+			rebornPos.y += sphereCollider.radius;
+			transform.position = rebornPos;
+			rb.velocity = Vector3.zero; //重置原有速度
+			rb.isKinematic = true;
+			checkRebornOnGround = false;
+
+
+			playerlife.Specal_PlayReviveSFX();
+
+			rebornFX.SetActive(true);
+			StartCoroutine(closeRebornFx());
+		}
+		else
+			playerlife.Specal_PlayTempGameoverSFX();
+
 	}
 
 	IEnumerator closeRebornFx()

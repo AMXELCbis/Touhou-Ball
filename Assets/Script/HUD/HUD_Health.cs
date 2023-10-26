@@ -47,7 +47,12 @@ public class HUD_Health : MonoBehaviour
 	[SerializeField]
 	private float V_Speed = 0.05f;
 
-		
+	[SerializeField] private AudioClip HealSFX_Normal;
+	[SerializeField] private AudioClip HealSFX_Max;
+	[SerializeField] private List<AudioClip> HitSFX;
+	[SerializeField] private AudioSource audiosource;
+
+
 	void Start()
 	{
 		FullHealthBorderColor = new Vector4(1,1,1, 1f);
@@ -79,6 +84,12 @@ public class HUD_Health : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F1) && player.CurrentHealth<player.MaxHealth)
 		{
 			player.CurrentHealth++;
+
+			if(player.CurrentHealth != player.MaxHealth)
+				audiosource.PlayOneShot(HealSFX_Normal);
+			else
+				audiosource.PlayOneShot(HealSFX_Max);
+
 			Healthincrese();
 			BloomCompent.tint.value = BloomGreenColor;
 			BloomCompent.intensity.value = BloomIntensity;
@@ -97,6 +108,9 @@ public class HUD_Health : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.F2) && player.CurrentHealth > 0)
 		{
+			AudioClip clip = HitSFX[UnityEngine.Random.Range(0, HitSFX.Count)];
+			audiosource.PlayOneShot(clip);
+
 			Healthdecrase();
 			player.CurrentHealth--;
 			BloomCompent.tint.value = BloomRedColor;
