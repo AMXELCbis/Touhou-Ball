@@ -77,7 +77,7 @@ public class HUD_Loudness : MonoBehaviour
 		}
 		else
 		{
-			Loop_audiosource.volume = Mathf.Lerp(Loop_audiosource.volume, 0, 0.1f);
+			Loop_audiosource.volume = (myBar.currentPercent / 100f)*0.5f;
 
 		}
 	}

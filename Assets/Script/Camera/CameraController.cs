@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour {
 	// Store a Vector3 offset from the player (a distance to place the camera from the player at all times)
 	private Vector3 offset;
     [SerializeField]
-    private Animator cameraRotateAnim;
+    public Animator cameraRotateAnim;
     [SerializeField]
     private Transform _downPoint; //落下镜头方位
     [SerializeField]
