@@ -145,7 +145,15 @@ public class PlayerLife : MonoBehaviour
 			else
 				Max.SetActive(false);
 
+			if (LevelManager.instance.PlayerLife == 1)
+			{
+				AnimatorNum.SetBool("Low", true);
+			}
+			else
+			{
+				AnimatorNum.SetBool("Low", false);
 
+			}
 
 
 		}

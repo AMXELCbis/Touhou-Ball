@@ -44,9 +44,15 @@ public class HUD_Loudness : MonoBehaviour
 
 	private Vector3 Radial_Scale;
 
+	[SerializeField] private AudioClip LoudnessSFX;
+	[SerializeField] private AudioSource Loop_audiosource;
+
 
 	void Start()
 	{
+		//Play the SFX
+		Loop_audiosource.PlayOneShot(LoudnessSFX);
+
 		Radial_Scale = Radial.transform.localScale;
 
 		MaxSpeed = Controller.maxSpeed;
@@ -60,6 +66,20 @@ public class HUD_Loudness : MonoBehaviour
 		m_Volume.profile.TryGet<MotionBlur>(out MoBCompent);
 
 		//MotionBlur_Volume = Volume
+	}
+
+	void ChangeLoudnessSFXVolume()
+	{
+		if (cameraController.isUpPoint)
+		{
+			Loop_audiosource.volume = myBar.currentPercent / 100f;
+
+		}
+		else
+		{
+			Loop_audiosource.volume = Mathf.Lerp(Loop_audiosource.volume, 0, 0.1f);
+
+		}
 	}
 
 	void checkA()
@@ -179,7 +199,7 @@ public class HUD_Loudness : MonoBehaviour
 
 
 
-
+		ChangeLoudnessSFXVolume();
 
 
 	}
